@@ -17,13 +17,15 @@
     <meta name="description" content="E-TOMIC BrandScan – Diagnóstico completo de marca do seu e-commerce.">
     <meta name="robots" content="noindex, nofollow">
     <title>BrandScan – Diagnóstico de Marca | E-TOMIC</title>
-    <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚛️</text></svg>">
+    <link rel="icon" type="image/png" href="assets/images/logo-mark.png">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/brandscan.css">
+    <!-- Flaticon Uicons -->
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
 
     <style>
         /* ---- Overrides para a página de relatório ---- */
@@ -448,7 +450,7 @@
         <!-- ESTADO VAZIO (sem dados no localStorage) -->
         <div id="diag-empty" style="display:none">
             <div class="diag-empty">
-                <div class="diag-empty-icon">⚛️</div>
+                <lord-icon src="https://cdn.lordicon.com/qhgmphtg.json" trigger="loop" colors="primary:#FF6B35,secondary:#FF6B35" style="width:80px;height:80px;margin-bottom:1rem;"></lord-icon>
                 <h2>Nenhum relatório encontrado</h2>
                 <p>Parece que você ainda não fez um diagnóstico, ou os dados expiraram.</p>
                 <a href="index.html" class="btn btn-primary">Fazer diagnóstico gratuito →</a>
@@ -476,9 +478,15 @@
 
                 <!-- Ações -->
                 <div class="diag-action-bar">
-                    <button class="bs-action-btn bs-action-btn--outline" id="diag-copy">📋 Copiar relatório</button>
-                    <a class="bs-action-btn bs-action-btn--green" id="diag-share-wa" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
-                    <a href="index.html" class="bs-action-btn bs-action-btn--primary">🔄 Nova análise</a>
+                    <button class="bs-action-btn bs-action-btn--outline" id="diag-copy" style="display:flex;align-items:center;gap:6px">
+                        <i class="fi fi-rr-copy" style="margin-top:2px"></i> Copiar relatório
+                    </button>
+                    <a class="bs-action-btn bs-action-btn--green" id="diag-share-wa" href="#" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px">
+                        <i class="fi fi-brands-whatsapp" style="margin-top:2px"></i> WhatsApp
+                    </a>
+                    <a href="index.html" class="bs-action-btn bs-action-btn--primary" style="display:flex;align-items:center;gap:6px">
+                        <i class="fi fi-rr-refresh" style="margin-top:2px"></i> Nova análise
+                    </a>
                 </div>
             </section>
 
@@ -495,11 +503,15 @@
                 <div class="diag-section">
                     <div class="diag-two-col">
                         <div class="diag-list-block diag-list-block--green">
-                            <div class="diag-list-block-title">✅ Pontos Fortes</div>
+                            <div class="diag-list-block-title">
+                                <i class="fi fi-rr-check-circle" style="font-size:20px;color:#2ed573;margin-right:6px"></i> Pontos Fortes
+                            </div>
                             <ul id="diag-pontos"></ul>
                         </div>
                         <div class="diag-list-block diag-list-block--orange">
-                            <div class="diag-list-block-title">📈 Oportunidades</div>
+                            <div class="diag-list-block-title">
+                                <i class="fi fi-rr-chart-line-up" style="font-size:20px;color:#FF6B35;margin-right:6px"></i> Oportunidades
+                            </div>
                             <ul id="diag-oportunidades"></ul>
                         </div>
                     </div>
@@ -509,7 +521,7 @@
                 <div class="diag-section">
                     <p class="diag-section-title">Recomendação Prioritária</p>
                     <div class="diag-rec-box">
-                        <span class="diag-rec-icon">🎯</span>
+                        <i class="fi fi-rr-bullseye" style="font-size:36px;color:#FF6B35;flex-shrink:0;margin-top:-6px"></i>
                         <p id="diag-recomendacao"></p>
                     </div>
                 </div>
@@ -562,7 +574,7 @@
                     <a id="diag-cta-wa"
                         href="https://wa.me/5511999999999?text=Ol%C3%A1%21+Fiz+o+diagn%C3%B3stico+de+marca+e+gostaria+de+conversar."
                         target="_blank" rel="noopener" class="diag-cta-wa">
-                        📅 Falar com um especialista
+                        <i class="fi fi-brands-whatsapp" style="font-size:24px;margin-top:2px"></i> Falar com um especialista
                     </a>
                 </div>
 
