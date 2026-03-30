@@ -1,0 +1,636 @@
+/* ========================================
+   E-TOMIC - CSS Responsivo
+   Breakpoints e ajustes para mobile/tablet
+======================================== */
+
+/* ========================================
+   Breakpoints
+======================================== */
+/* 
+   xs: 0-576px (mobile portrait)
+   sm: 577-768px (mobile landscape)
+   md: 769-992px (tablet)
+   lg: 993-1200px (desktop small)
+   xl: 1201px+ (desktop large)
+*/
+
+/* ========================================
+   Tablet (máx 992px)
+======================================== */
+@media (max-width: 992px) {
+
+    /* Container */
+    .container {
+        padding: 0 4%;
+    }
+
+    /* Header */
+    .header {
+        padding: 1rem 4%;
+    }
+
+    .logo-text {
+        font-size: 1.5rem;
+    }
+
+    .logo-mark {
+        width: 36px;
+        height: 36px;
+    }
+
+    .logo-mark img {
+        width: 22px;
+        height: 22px;
+    }
+
+
+    /* Navegação Desktop vira Mobile */
+    .nav-menu {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-mobile {
+        display: block;
+    }
+
+    /* Hero */
+    .hero {
+        min-height: 80vh;
+        padding: 6rem 4% 3rem;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+    }
+
+    h2 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+    }
+
+    /* Botões */
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    /* Grid */
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* Cards */
+    .card {
+        padding: 2rem;
+    }
+
+    /* Footer */
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    /* Espaçamentos */
+    :root {
+        --spacing-xl: 4rem;
+        --spacing-lg: 3rem;
+    }
+
+    .section {
+        padding: var(--spacing-lg) 0;
+    }
+}
+
+/* ========================================
+   Mobile Landscape (máx 768px)
+======================================== */
+@media (max-width: 768px) {
+
+    /* Tipografia */
+    html {
+        font-size: 15px;
+    }
+
+    h1 {
+        font-size: clamp(1.8rem, 6vw, 3rem);
+        letter-spacing: -1px;
+    }
+
+    h2 {
+        font-size: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    h3 {
+        font-size: clamp(1.3rem, 4vw, 2rem);
+    }
+
+    /* Hero */
+    .hero {
+        min-height: 70vh;
+        padding: 5rem 5% 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1rem, 3vw, 1.3rem);
+    }
+
+    /* Header */
+    .header {
+        padding: 0.8rem 5%;
+    }
+
+    .logo-text {
+        font-size: 1.6rem;
+        letter-spacing: 2px;
+    }
+
+    .logo-mark {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+    }
+
+    .logo-mark img {
+        width: 30px;
+        height: 30px;
+    }
+
+
+    .btn-header {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Menu Mobile */
+    .nav-mobile {
+        max-width: 100%;
+        padding: 6rem 2rem 2rem;
+    }
+
+    .nav-mobile-link {
+        font-size: 1.3rem;
+    }
+
+    /* Botões */
+    .btn {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+
+    .btn-large {
+        padding: 1.2rem 2.5rem;
+        font-size: 1.1rem;
+    }
+
+    /* Cards */
+    .card {
+        padding: 1.5rem;
+    }
+
+    .card-icon {
+        font-size: 2.5rem;
+    }
+
+    /* Stats */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .stat-number {
+        font-size: 3.5rem;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+        padding: var(--spacing-lg) 5% var(--spacing-md);
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-social {
+        justify-content: center;
+    }
+
+    /* Espaçamentos */
+    :root {
+        --spacing-xl: 3rem;
+        --spacing-lg: 2rem;
+        --spacing-md: 1.5rem;
+    }
+}
+
+/* ========================================
+   Mobile Portrait (máx 576px)
+======================================== */
+@media (max-width: 576px) {
+
+    /* Tipografia base menor */
+    html {
+        font-size: 14px;
+    }
+
+    /* Container */
+    .container,
+    .container-fluid {
+        padding: 0 4%;
+    }
+
+    /* Header */
+    .header {
+        padding: 0.8rem 4%;
+    }
+
+    .header.scrolled {
+        padding: 0.6rem 4%;
+    }
+
+    .logo-text {
+        font-size: 1.5rem;
+    }
+
+    .logo-mark {
+        width: 36px;
+        height: 36px;
+    }
+
+    .logo-mark img {
+        width: 22px;
+        height: 22px;
+    }
+
+
+    /* Menu Toggle */
+    .menu-toggle span {
+        width: 25px;
+        height: 2px;
+    }
+
+    /* Hero */
+    .hero {
+        min-height: 100vh;
+        padding: 5rem 4% 2rem;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+        gap: 1rem;
+    }
+
+    /* Botões */
+    .btn {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        border-radius: 30px;
+    }
+
+    .btn-large {
+        padding: 1.2rem 2rem;
+        font-size: 1.1rem;
+    }
+
+    .btn-header {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.85rem;
+    }
+
+    /* Cards */
+    .card {
+        padding: 1.5rem;
+        border-radius: var(--radius-md);
+    }
+
+    .card-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    /* Grid */
+    .grid {
+        gap: 1rem;
+    }
+
+    /* Stats */
+    .stat-card {
+        padding: 2rem 1rem;
+    }
+
+    .stat-number {
+        font-size: 3rem;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 2rem 4% 1.5rem;
+    }
+
+    .footer-content {
+        gap: 2rem;
+    }
+
+    .footer-section h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 0.9rem;
+        line-height: 1.8;
+    }
+
+    .footer-bottom {
+        font-size: 0.85rem;
+        padding-top: 1.5rem;
+    }
+
+    .social-link {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    /* Seções */
+    .section {
+        padding: 2.5rem 0;
+    }
+
+    /* Espaçamentos */
+    :root {
+        --spacing-xl: 2.5rem;
+        --spacing-lg: 2rem;
+        --spacing-md: 1.5rem;
+        --spacing-sm: 1rem;
+    }
+}
+
+/* ========================================
+   Mobile Muito Pequeno (máx 375px)
+======================================== */
+@media (max-width: 375px) {
+    html {
+        font-size: 13px;
+    }
+
+    .logo-text {
+        font-size: 1.4rem;
+    }
+
+    .logo-mark {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logo-mark img {
+        width: 28px;
+        height: 28px;
+    }
+
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero {
+        padding: 4rem 4% 2rem;
+    }
+
+    .btn {
+        padding: 0.9rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .card {
+        padding: 1.2rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
+
+/* ========================================
+   Landscape Mobile (altura < 500px)
+======================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        min-height: auto;
+        padding: 3rem 5% 2rem;
+    }
+
+    .header {
+        padding: 0.5rem 5%;
+    }
+
+    .nav-mobile {
+        padding: 4rem 2rem 2rem;
+    }
+
+    .section {
+        padding: 2rem 0;
+    }
+}
+
+/* ========================================
+   Ajustes para Tablets Específicos
+======================================== */
+
+/* iPad (768px x 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* iPad Pro (1024px x 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+    .container {
+        max-width: 1200px;
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ========================================
+   Ajustes de Performance Mobile
+======================================== */
+@media (max-width: 768px) {
+
+    /* Desabilitar algumas animações pesadas */
+    .float,
+    .pulse,
+    .rotate {
+        animation: none;
+    }
+
+    /* Simplificar transições */
+    * {
+        transition-duration: 0.2s !important;
+    }
+
+    /* Remover backdrop-filter (pesado no mobile) */
+    .header {
+        backdrop-filter: none;
+        background: rgba(10, 10, 10, 0.98);
+    }
+}
+
+/* ========================================
+   Touch-Friendly Adjustments
+======================================== */
+@media (hover: none) and (pointer: coarse) {
+
+    /* Aumentar áreas de toque */
+    .btn,
+    .nav-link,
+    .nav-mobile-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Remover hover effects em dispositivos touch */
+    .hover-lift:hover,
+    .hover-scale:hover,
+    .hover-bright:hover {
+        transform: none;
+        filter: none;
+    }
+
+    /* Estados de toque (active) */
+    .btn:active {
+        transform: scale(0.95);
+    }
+
+    .card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ========================================
+   Modo Escuro (respeitando preferência)
+======================================== */
+@media (prefers-color-scheme: dark) {
+
+    /* Já está dark por padrão, mas ajustes finos */
+    :root {
+        --dark-bg: #000000;
+        --dark-card: #0D0D0D;
+    }
+}
+
+/* ========================================
+   Alto Contraste (acessibilidade)
+======================================== */
+@media (prefers-contrast: high) {
+    :root {
+        --text-gray: #C0C0C0;
+    }
+
+    .card {
+        border-width: 2px;
+    }
+
+    .btn {
+        border: 2px solid transparent;
+    }
+
+    .btn-primary {
+        border-color: var(--atomic-orange);
+    }
+}
+
+/* ========================================
+   Print Styles
+======================================== */
+@media print {
+
+    .header,
+    .nav-mobile,
+    .menu-toggle,
+    .btn,
+    .footer-social,
+    .page-transition {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    .section {
+        page-break-inside: avoid;
+    }
+}
+
+/* ========================================
+   Orientação (Landscape específico)
+======================================== */
+@media (orientation: landscape) and (max-width: 992px) {
+    .hero {
+        min-height: auto;
+        padding: 4rem 5% 3rem;
+    }
+}
+
+/* ========================================
+   Ajuste para Notch (iPhone X+)
+======================================== */
+@supports (padding: max(0px)) {
+    .header {
+        padding-left: max(5%, env(safe-area-inset-left));
+        padding-right: max(5%, env(safe-area-inset-right));
+    }
+
+    .footer {
+        padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
+    }
+}
