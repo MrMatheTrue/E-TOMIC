@@ -83,11 +83,29 @@
     }
 
     /* Grid */
-    .grid-2,
-    .grid-3,
-    .grid-4 {
+    .grid-2 {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+    }
+
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Overrides de seção para tablet */
+    #sobre .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #servicos .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    #depoimentos .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     /* Cards */
@@ -204,8 +222,22 @@
 
     /* Stats */
     .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+
+    /* Overrides de seção para mobile */
+    #sobre .grid-4,
+    #servicos .grid-2,
+    #depoimentos .grid-3 {
+        grid-template-columns: 1fr;
     }
 
     .stat-number {

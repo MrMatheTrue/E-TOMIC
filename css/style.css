@@ -171,7 +171,7 @@ h2 {
 }
 
 h3 {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
 }
 
 h4 {
@@ -559,7 +559,7 @@ p {
     -webkit-backdrop-filter: var(--glass-blur);
     border: var(--glass-border);
     border-radius: var(--radius-lg);
-    padding: 2.5rem;
+    padding: 1.8rem;
     transition: transform 0.1s ease-out, box-shadow 0.3s ease, background 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -622,19 +622,25 @@ p {
 }
 
 .card-icon {
-    font-size: 3.5rem;
-    margin-bottom: var(--spacing-md);
-    display: inline-block;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    min-height: 64px;
 }
 
 .card-title {
     color: var(--atomic-orange);
     margin-bottom: var(--spacing-sm);
+    font-size: clamp(0.95rem, 1.5vw, 1.25rem);
+    line-height: 1.3;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 .card-text {
     color: var(--text-gray);
-    line-height: 1.8;
+    line-height: 1.7;
+    font-size: clamp(0.85rem, 1.1vw, 0.95rem);
 }
 
 /* ========================================
@@ -646,15 +652,46 @@ p {
 }
 
 .grid-2 {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .grid-3 {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .grid-4 {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* ================================================
+   Overrides por Seção — controle preciso de grids
+================================================ */
+
+/* "Por que a E-TOMIC?" — sempre 4 colunas em desktop */
+#sobre .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+#sobre .card-title {
+    font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+}
+
+#sobre .card {
+    padding: 1.5rem;
+}
+
+/* "As 4 Regras Atômicas" — sempre 2 colunas (2+2) em desktop */
+#servicos .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#servicos .card-title {
+    font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+}
+
+/* "Cases de Sucesso" — sempre 3 colunas em desktop */
+#depoimentos .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
 }
 
 /* ========================================

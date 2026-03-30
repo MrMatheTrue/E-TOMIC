@@ -518,17 +518,10 @@ class FormAutoSave {
 // Inicialização
 // ========================================
 function initForms() {
-    console.log('%c📝 Inicializando formulários E-TOMIC...', 'color: #FFB800; font-weight: bold;');
-    console.log('%c✅ Método SEM CORS ativado', 'color: #4CAF50; font-weight: bold;');
+    console.log('%c⚛️ E-TOMIC BrandScan Modal – iniciando...', 'color: #FF6B35; font-weight: bold;');
 
-    // Inicializar formulário principal
-    const contactForm = new FormHandler('leadForm');
-
-    // Inicializar modal
+    // Inicializar modal (controla overlay via [data-form-open])
     const formModal = new FormModal('formOverlay');
-
-    // Auto-save (opcional)
-    // const autoSave = new FormAutoSave('leadForm');
 }
 
 // ========================================
