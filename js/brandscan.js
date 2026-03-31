@@ -2,9 +2,8 @@
    E-TOMIC – BrandScan Integration
    Fluxo:
    1. Supabase Edge Function → análise de IA
-   2. Google Apps Script    → salva no Sheets + e-mail ao lead
-      (via sendBeacon – sobrevive ao redirect de página)
-   3. localStorage          → passa resultado para diagnostico.html
+   2. localStorage           → guarda payload pendente (sent: false)
+   3. diagnostico.html       → lê pending, envia para Apps Script (página estável)
 ======================================== */
 
 const BRANDSCAN_CONFIG = {
@@ -30,27 +29,21 @@ async function callBrandScan(nome, email, telefone, siteUrl) {
     },
     body: JSON.stringify({ nome, email, telefone, site_url: siteUrl }),
   });
-
   if (!resp.ok) {
     const err = await resp.json().catch(() => ({}));
     throw new Error(err.error || `Erro HTTP ${resp.status}`);
   }
-
   const data = await resp.json();
   if (data.error) throw new Error(data.error);
   return data;
 }
 
 // ============================================================
-// 2. Salvar no Sheets + disparar e-mail
-//
-//    navigator.sendBeacon() é a única API que garante envio
-//    mesmo quando a página está sendo descarregada/redirecionada.
-//    fetch e iframe são cancelados pelo browser no redirect.
-//    sendBeacon envia como text/plain (sem preflight CORS).
-//    Apps Script lê o JSON via e.postData.contents.
+// 2. Guardar payload no localStorage com flag sent: false
+//    O envio real acontece em diagnostico.html (página estável,
+//    sem risco de cancelamento por redirect).
 // ============================================================
-function saveToSheets(lead, report) {
+function savePendingLead(lead, report) {
   try {
     const payload = {
       nome: lead.nome || '',
@@ -66,24 +59,16 @@ function saveToSheets(lead, report) {
       recomendacao: String(report.recomendacao_prioritaria ?? ''),
       contato_whatsapp: BRANDSCAN_CONFIG.contatoWhatsApp,
       contato_email: BRANDSCAN_CONFIG.contatoEmail,
+      sheets_url: BRANDSCAN_CONFIG.sheetsUrl,
     };
-
-    const json = JSON.stringify(payload);
-
-    // Blob com type text/plain → requisição "simples", sem preflight CORS
-    // sendBeacon garante envio mesmo durante navegação de página
-    const blob = new Blob([json], { type: 'text/plain' });
-    const ok = navigator.sendBeacon(BRANDSCAN_CONFIG.sheetsUrl, blob);
-
-    console.log('sendBeacon agendado:', ok);
-
+    localStorage.setItem('brandscan_lead_pending', JSON.stringify({ sent: false, payload }));
   } catch (err) {
-    console.warn('saveToSheets erro (não crítico):', err.message);
+    console.warn('savePendingLead:', err.message);
   }
 }
 
 // ============================================================
-// Fases do modal
+// Fases / Toast / Progress / Loading (sem alteração)
 // ============================================================
 function showPhase(phase) {
   ['bs-phase-form', 'bs-phase-loading'].forEach(id => {
@@ -100,10 +85,7 @@ function showToast(msg, type = 'info') {
   t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(() => t.classList.add('bs-toast--visible'), 10);
-  setTimeout(() => {
-    t.classList.remove('bs-toast--visible');
-    setTimeout(() => t.remove(), 400);
-  }, 3500);
+  setTimeout(() => { t.classList.remove('bs-toast--visible'); setTimeout(() => t.remove(), 400); }, 3500);
 }
 
 function updateProgress(phase) {
@@ -122,20 +104,12 @@ function updateProgress(phase) {
   }
 }
 
-// ============================================================
-// Loading animation
-// ============================================================
 let loadingInterval = null;
 let loadingStepIdx = 0;
 const loadingSteps = [
-  'Acessando o site…',
-  'Capturando screenshot…',
-  'Analisando identidade visual…',
-  'Avaliando proposta de valor…',
-  'Checando tom de voz…',
-  'Verificando diferenciação…',
-  'Calculando score de marca…',
-  'Montando relatório completo…',
+  'Acessando o site…', 'Capturando screenshot…', 'Analisando identidade visual…',
+  'Avaliando proposta de valor…', 'Checando tom de voz…', 'Verificando diferenciação…',
+  'Calculando score de marca…', 'Montando relatório completo…',
 ];
 
 function startLoadingAnim() {
@@ -147,10 +121,7 @@ function startLoadingAnim() {
   loadingInterval = setInterval(() => {
     loadingStepIdx = (loadingStepIdx + 1) % loadingSteps.length;
     el.style.opacity = '0';
-    setTimeout(() => {
-      el.textContent = loadingSteps[loadingStepIdx];
-      el.style.opacity = '1';
-    }, 300);
+    setTimeout(() => { el.textContent = loadingSteps[loadingStepIdx]; el.style.opacity = '1'; }, 300);
   }, 3800);
 }
 
@@ -197,26 +168,23 @@ function initBrandScan() {
     startLoadingAnim();
 
     try {
-      // Passo 1 – análise IA via Supabase
+      // Passo 1 – análise IA
       const result = await callBrandScan(nome, email, telefone, siteUrl);
 
-      // Passo 2 – sendBeacon: agendado antes do redirect, enviado pelo browser
-      //           mesmo depois da navegação de página
-      saveToSheets({ nome, email, telefone, siteUrl }, result.report ?? {});
+      // Passo 2 – guardar lead pendente no localStorage (enviado em diagnostico.html)
+      savePendingLead({ nome, email, telefone, siteUrl }, result.report ?? {});
 
-      // Passo 3 – passar resultado para diagnostico.html
+      // Passo 3 – resultado para diagnostico.html
       result.siteUrl = siteUrl;
       result.nome = nome;
       localStorage.setItem('brandscan_result', JSON.stringify(result));
 
       updateProgress('redirect');
       stopLoadingAnim();
-
       const stepEl = document.getElementById('bs-loading-step');
       if (stepEl) { stepEl.style.opacity = '1'; stepEl.textContent = 'Relatório pronto! Abrindo…'; }
 
-      // 2000ms de delay: sendBeacon precisa ser agendado antes da navegação
-      setTimeout(() => { window.location.href = 'diagnostico.html'; }, 2000);
+      setTimeout(() => { window.location.href = 'diagnostico.html'; }, 1000);
 
     } catch (err) {
       console.error('BrandScan error:', err);

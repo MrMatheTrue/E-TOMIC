@@ -24,7 +24,8 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/brandscan.css">
     <!-- Flaticon Uicons -->
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
 
     <style>
@@ -35,13 +36,16 @@
             background: transparent;
             text-align: center;
         }
-        .diag-page-hero::after { display: none; }
+
+        .diag-page-hero::after {
+            display: none;
+        }
 
         .diag-label-small {
             font-size: 0.78rem;
             letter-spacing: 2.5px;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
+            color: rgba(255, 255, 255, 0.4);
             margin-bottom: 0.4rem;
             display: block;
         }
@@ -55,11 +59,13 @@
             gap: 0.5rem;
             margin-bottom: 2.5rem;
         }
+
         .diag-score-big {
             display: flex;
             align-items: baseline;
             gap: 6px;
         }
+
         .diag-score-big .num {
             font-family: var(--font-display);
             font-size: clamp(5rem, 12vw, 9rem);
@@ -70,11 +76,13 @@
             background-clip: text;
             line-height: 1;
         }
+
         .diag-score-big .denom {
             font-size: 2rem;
-            color: rgba(255,255,255,0.3);
+            color: rgba(255, 255, 255, 0.3);
             font-weight: 500;
         }
+
         .diag-headline {
             font-size: clamp(1.1rem, 2.5vw, 1.5rem);
             font-weight: 600;
@@ -90,8 +98,8 @@
             width: 220px;
             margin: 0 auto 1.5rem;
             border-radius: 14px;
-            border: 1px solid rgba(255,107,53,0.3);
-            box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 30px rgba(255,107,53,0.15);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 107, 53, 0.15);
         }
 
         /* Action bar */
@@ -114,6 +122,7 @@
         .diag-section {
             margin-bottom: 3.5rem;
         }
+
         .diag-section-title {
             font-size: 0.72rem;
             letter-spacing: 3px;
@@ -125,22 +134,24 @@
             align-items: center;
             gap: 0.5rem;
         }
+
         .diag-section-title::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: rgba(255,107,53,0.15);
+            background: rgba(255, 107, 53, 0.15);
         }
 
         /* Glass boxes */
         .diag-glass {
-            background: rgba(20,20,20,0.55);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(20, 20, 20, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
             padding: 1.8rem 2rem;
         }
+
         .diag-glass p {
-            color: rgba(255,255,255,0.65);
+            color: rgba(255, 255, 255, 0.65);
             line-height: 1.8;
             font-size: 1rem;
             margin: 0;
@@ -152,16 +163,26 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
-        @media (max-width: 700px) { .diag-two-col { grid-template-columns: 1fr; } }
+
+        @media (max-width: 700px) {
+            .diag-two-col {
+                grid-template-columns: 1fr;
+            }
+        }
 
         /* List block */
         .diag-list-block {
-            background: rgba(20,20,20,0.55);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(20, 20, 20, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
             padding: 1.5rem;
         }
-        .diag-list-block--orange { border-color: rgba(255,107,53,0.2); background: rgba(255,107,53,0.04); }
+
+        .diag-list-block--orange {
+            border-color: rgba(255, 107, 53, 0.2);
+            background: rgba(255, 107, 53, 0.04);
+        }
+
         .diag-list-block-title {
             display: flex;
             align-items: center;
@@ -172,34 +193,59 @@
             text-transform: uppercase;
             margin-bottom: 1rem;
         }
-        .diag-list-block--green .diag-list-block-title { color: #2ed573; }
-        .diag-list-block--orange .diag-list-block-title { color: #FF6B35; }
+
+        .diag-list-block--green .diag-list-block-title {
+            color: #2ed573;
+        }
+
+        .diag-list-block--orange .diag-list-block-title {
+            color: #FF6B35;
+        }
 
         .diag-list-item {
             display: flex;
             align-items: flex-start;
             gap: 0.6rem;
             font-size: 0.92rem;
-            color: rgba(255,255,255,0.65);
+            color: rgba(255, 255, 255, 0.65);
             margin-bottom: 0.55rem;
             line-height: 1.6;
         }
-        .diag-li-icon { flex-shrink: 0; }
-        .diag-list-item--green .diag-li-icon { color: #2ed573; }
-        .diag-list-item--orange .diag-li-icon { color: #FF6B35; }
+
+        .diag-li-icon {
+            flex-shrink: 0;
+        }
+
+        .diag-list-item--green .diag-li-icon {
+            color: #2ed573;
+        }
+
+        .diag-list-item--orange .diag-li-icon {
+            color: #FF6B35;
+        }
 
         /* Recomendação */
         .diag-rec-box {
             display: flex;
             align-items: flex-start;
             gap: 1rem;
-            background: rgba(255,107,53,0.06);
-            border: 1px solid rgba(255,107,53,0.25);
+            background: rgba(255, 107, 53, 0.06);
+            border: 1px solid rgba(255, 107, 53, 0.25);
             border-radius: 18px;
             padding: 1.8rem 2rem;
         }
-        .diag-rec-icon { font-size: 1.6rem; flex-shrink: 0; }
-        .diag-rec-box p { color: rgba(255,255,255,0.7); line-height: 1.8; font-size: 1rem; margin: 0; }
+
+        .diag-rec-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .diag-rec-box p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            font-size: 1rem;
+            margin: 0;
+        }
 
         /* Radar + dimensões layout */
         .diag-viz-row {
@@ -208,23 +254,31 @@
             gap: 2rem;
             align-items: start;
         }
-        @media (max-width: 800px) { .diag-viz-row { grid-template-columns: 1fr; } }
+
+        @media (max-width: 800px) {
+            .diag-viz-row {
+                grid-template-columns: 1fr;
+            }
+        }
 
         /* Radar */
         .diag-radar-wrap {
-            background: rgba(20,20,20,0.55);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(20, 20, 20, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
             padding: 1.5rem;
             position: relative;
         }
-        #diag-radar-canvas { width: 100% !important; }
+
+        #diag-radar-canvas {
+            width: 100% !important;
+        }
 
         /* Radar custom tooltip */
         #diag-radar-tooltip {
             position: absolute;
-            background: rgba(10,10,10,0.92);
-            border: 1px solid rgba(255,107,53,0.4);
+            background: rgba(10, 10, 10, 0.92);
+            border: 1px solid rgba(255, 107, 53, 0.4);
             border-radius: 10px;
             padding: 0.55rem 0.9rem;
             pointer-events: none;
@@ -233,9 +287,22 @@
             z-index: 10;
             white-space: nowrap;
         }
-        #diag-radar-tooltip.visible { opacity: 1; }
-        .diag-radar-tt-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
-        .diag-radar-tt-score { font-size: 1.3rem; font-weight: 900; font-family: var(--font-display); color: #FF6B35; }
+
+        #diag-radar-tooltip.visible {
+            opacity: 1;
+        }
+
+        .diag-radar-tt-label {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .diag-radar-tt-score {
+            font-size: 1.3rem;
+            font-weight: 900;
+            font-family: var(--font-display);
+            color: #FF6B35;
+        }
 
         /* Dimensões grid */
         .diag-dim-grid {
@@ -243,96 +310,153 @@
             flex-direction: column;
             gap: 0.8rem;
         }
+
         .diag-dim-card {
-            background: rgba(20,20,20,0.55);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(20, 20, 20, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             padding: 1rem 1.3rem;
             cursor: default;
             transition: border-color 0.2s ease, background 0.2s ease;
         }
+
         .diag-dim-card:hover {
-            border-color: rgba(255,107,53,0.35);
-            background: rgba(255,107,53,0.04);
+            border-color: rgba(255, 107, 53, 0.35);
+            background: rgba(255, 107, 53, 0.04);
         }
+
         .diag-dim-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 0.5rem;
         }
-        .diag-dim-label { font-size: 0.88rem; font-weight: 700; color: rgba(255,255,255,0.8); }
+
+        .diag-dim-label {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
         .diag-dim-score {
             font-size: 1.7rem;
             font-weight: 900;
             font-family: var(--font-display);
             line-height: 1;
         }
-        .diag-dim-score small { font-size: 0.65rem; color: rgba(255,255,255,0.3); font-weight: 400; }
+
+        .diag-dim-score small {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 400;
+        }
+
         .diag-dim-bar-track {
             width: 100%;
             height: 5px;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 5px;
             overflow: hidden;
             margin-bottom: 0.6rem;
         }
+
         .diag-dim-bar-fill {
             height: 100%;
             border-radius: 5px;
-            transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .diag-dim-analise {
             font-size: 0.83rem;
-            color: rgba(255,255,255,0.45);
+            color: rgba(255, 255, 255, 0.45);
             line-height: 1.5;
             margin: 0;
             display: none;
         }
-        .diag-dim-card:hover .diag-dim-analise { display: block; }
+
+        .diag-dim-card:hover .diag-dim-analise {
+            display: block;
+        }
 
         /* Oportunidades priorizadas */
         .diag-op-table {
-            background: rgba(20,20,20,0.55);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(20, 20, 20, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
             overflow: hidden;
         }
-        .diag-op-header, .diag-op-row {
+
+        .diag-op-header,
+        .diag-op-row {
             display: grid;
             grid-template-columns: 1fr auto auto auto;
             gap: 1rem;
             padding: 0.9rem 1.5rem;
             align-items: center;
         }
+
         @media (max-width: 600px) {
-            .diag-op-header, .diag-op-row { grid-template-columns: 1fr auto; }
-            .diag-op-header span:nth-child(2), .diag-op-header span:nth-child(3),
-            .diag-op-row .diag-badge:nth-child(2), .diag-op-row .diag-badge:nth-child(3) { display: none; }
+
+            .diag-op-header,
+            .diag-op-row {
+                grid-template-columns: 1fr auto;
+            }
+
+            .diag-op-header span:nth-child(2),
+            .diag-op-header span:nth-child(3),
+            .diag-op-row .diag-badge:nth-child(2),
+            .diag-op-row .diag-badge:nth-child(3) {
+                display: none;
+            }
         }
+
         .diag-op-header {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             font-size: 0.72rem;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
+            color: rgba(255, 255, 255, 0.3);
             font-weight: 600;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
-        .diag-op-row { border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .diag-op-row:last-child { border-bottom: none; }
-        .diag-op-acao { font-size: 0.9rem; color: rgba(255,255,255,0.65); margin: 0; line-height: 1.5; }
+
+        .diag-op-row {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .diag-op-row:last-child {
+            border-bottom: none;
+        }
+
+        .diag-op-acao {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.65);
+            margin: 0;
+            line-height: 1.5;
+        }
 
         /* Badges */
         .diag-badge {
-            font-size: 0.72rem; font-weight: 600;
-            padding: 4px 10px; border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.15);
-            color: rgba(255,255,255,0.5);
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.5);
             white-space: nowrap;
         }
-        .diag-badge--green { color: #2ed573; border-color: rgba(46,213,115,0.3); background: rgba(46,213,115,0.08); }
-        .diag-badge--yellow { color: #FFD600; border-color: rgba(255,214,0,0.3); background: rgba(255,214,0,0.08); }
+
+        .diag-badge--green {
+            color: #2ed573;
+            border-color: rgba(46, 213, 115, 0.3);
+            background: rgba(46, 213, 115, 0.08);
+        }
+
+        .diag-badge--yellow {
+            color: #FFD600;
+            border-color: rgba(255, 214, 0, 0.3);
+            background: rgba(255, 214, 0, 0.08);
+        }
 
         /* Plano 4 semanas */
         .diag-plano-grid {
@@ -340,12 +464,14 @@
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.2rem;
         }
+
         .diag-plano-week {
-            background: rgba(20,20,20,0.55);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(20, 20, 20, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
             padding: 1.5rem;
         }
+
         .diag-plano-week-title {
             font-size: 0.78rem;
             letter-spacing: 2px;
@@ -359,10 +485,19 @@
         .diag-cta {
             text-align: center;
             padding: 3rem 0;
-            border-top: 1px solid rgba(255,255,255,0.07);
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
         }
-        .diag-cta h2 { margin-bottom: 0.8rem; }
-        .diag-cta p { color: rgba(255,255,255,0.55); font-size: 1.05rem; margin-bottom: 2rem; }
+
+        .diag-cta h2 {
+            margin-bottom: 0.8rem;
+        }
+
+        .diag-cta p {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+        }
+
         .diag-cta-wa {
             display: inline-flex;
             align-items: center;
@@ -374,10 +509,15 @@
             font-weight: 700;
             font-size: 1.05rem;
             text-decoration: none;
-            box-shadow: 0 10px 30px rgba(255,107,53,0.4);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
-        .diag-cta-wa:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(255,107,53,0.55); color: white; }
+
+        .diag-cta-wa:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(255, 107, 53, 0.55);
+            color: white;
+        }
 
         /* Empty state */
         .diag-empty {
@@ -389,22 +529,35 @@
             text-align: center;
             gap: 1.5rem;
         }
-        .diag-empty-icon { font-size: 4rem; }
-        .diag-empty h2 { font-size: 1.8rem; }
-        .diag-empty p { color: rgba(255,255,255,0.5); max-width: 450px; }
+
+        .diag-empty-icon {
+            font-size: 4rem;
+        }
+
+        .diag-empty h2 {
+            font-size: 1.8rem;
+        }
+
+        .diag-empty p {
+            color: rgba(255, 255, 255, 0.5);
+            max-width: 450px;
+        }
 
         /* Back link */
         .diag-back {
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            color: rgba(255,255,255,0.45);
+            color: rgba(255, 255, 255, 0.45);
             font-size: 0.88rem;
             text-decoration: none;
             margin-bottom: 2rem;
             transition: color 0.2s ease;
         }
-        .diag-back:hover { color: #FF6B35; }
+
+        .diag-back:hover {
+            color: #FF6B35;
+        }
     </style>
 </head>
 
@@ -450,7 +603,9 @@
         <!-- ESTADO VAZIO (sem dados no localStorage) -->
         <div id="diag-empty" style="display:none">
             <div class="diag-empty">
-                <lord-icon src="https://cdn.lordicon.com/qhgmphtg.json" trigger="loop" colors="primary:#FF6B35,secondary:#FF6B35" style="width:80px;height:80px;margin-bottom:1rem;"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/qhgmphtg.json" trigger="loop"
+                    colors="primary:#FF6B35,secondary:#FF6B35"
+                    style="width:80px;height:80px;margin-bottom:1rem;"></lord-icon>
                 <h2>Nenhum relatório encontrado</h2>
                 <p>Parece que você ainda não fez um diagnóstico, ou os dados expiraram.</p>
                 <a href="index.html" class="btn btn-primary">Fazer diagnóstico gratuito →</a>
@@ -465,7 +620,8 @@
                 <a href="index.html" class="diag-back">← Voltar ao início</a>
 
                 <!-- Screenshot -->
-                <img id="diag-screenshot" class="diag-screenshot" src="" alt="Screenshot do site analisado" style="display:none">
+                <img id="diag-screenshot" class="diag-screenshot" src="" alt="Screenshot do site analisado"
+                    style="display:none">
 
                 <div class="diag-score-hero">
                     <span class="diag-label-small">Diagnóstico de Marca · BrandScan</span>
@@ -478,13 +634,16 @@
 
                 <!-- Ações -->
                 <div class="diag-action-bar">
-                    <button class="bs-action-btn bs-action-btn--outline" id="diag-copy" style="display:flex;align-items:center;gap:6px">
+                    <button class="bs-action-btn bs-action-btn--outline" id="diag-copy"
+                        style="display:flex;align-items:center;gap:6px">
                         <i class="fi fi-rr-copy" style="margin-top:2px"></i> Copiar relatório
                     </button>
-                    <a class="bs-action-btn bs-action-btn--green" id="diag-share-wa" href="#" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px">
+                    <a class="bs-action-btn bs-action-btn--green" id="diag-share-wa" href="#" target="_blank"
+                        rel="noopener" style="display:flex;align-items:center;gap:6px">
                         <i class="fi fi-brands-whatsapp" style="margin-top:2px"></i> WhatsApp
                     </a>
-                    <a href="index.html" class="bs-action-btn bs-action-btn--primary" style="display:flex;align-items:center;gap:6px">
+                    <a href="index.html" class="bs-action-btn bs-action-btn--primary"
+                        style="display:flex;align-items:center;gap:6px">
                         <i class="fi fi-rr-refresh" style="margin-top:2px"></i> Nova análise
                     </a>
                 </div>
@@ -496,7 +655,9 @@
                 <!-- Resumo Executivo -->
                 <div class="diag-section">
                     <p class="diag-section-title">Resumo Executivo</p>
-                    <div class="diag-glass"><p id="diag-resumo"></p></div>
+                    <div class="diag-glass">
+                        <p id="diag-resumo"></p>
+                    </div>
                 </div>
 
                 <!-- Pontos Fortes / Oportunidades -->
@@ -504,13 +665,15 @@
                     <div class="diag-two-col">
                         <div class="diag-list-block diag-list-block--green">
                             <div class="diag-list-block-title">
-                                <i class="fi fi-rr-check-circle" style="font-size:20px;color:#2ed573;margin-right:6px"></i> Pontos Fortes
+                                <i class="fi fi-rr-check-circle"
+                                    style="font-size:20px;color:#2ed573;margin-right:6px"></i> Pontos Fortes
                             </div>
                             <ul id="diag-pontos"></ul>
                         </div>
                         <div class="diag-list-block diag-list-block--orange">
                             <div class="diag-list-block-title">
-                                <i class="fi fi-rr-chart-line-up" style="font-size:20px;color:#FF6B35;margin-right:6px"></i> Oportunidades
+                                <i class="fi fi-rr-chart-line-up"
+                                    style="font-size:20px;color:#FF6B35;margin-right:6px"></i> Oportunidades
                             </div>
                             <ul id="diag-oportunidades"></ul>
                         </div>
@@ -521,7 +684,8 @@
                 <div class="diag-section">
                     <p class="diag-section-title">Recomendação Prioritária</p>
                     <div class="diag-rec-box">
-                        <i class="fi fi-rr-bullseye" style="font-size:36px;color:#FF6B35;flex-shrink:0;margin-top:-6px"></i>
+                        <i class="fi fi-rr-bullseye"
+                            style="font-size:36px;color:#FF6B35;flex-shrink:0;margin-top:-6px"></i>
                         <p id="diag-recomendacao"></p>
                     </div>
                 </div>
@@ -564,7 +728,9 @@
                 <!-- Conclusão -->
                 <div class="diag-section">
                     <p class="diag-section-title">Conclusão</p>
-                    <div class="diag-glass"><p id="diag-conclusao"></p></div>
+                    <div class="diag-glass">
+                        <p id="diag-conclusao"></p>
+                    </div>
                 </div>
 
                 <!-- CTA Final -->
@@ -574,7 +740,8 @@
                     <a id="diag-cta-wa"
                         href="https://wa.me/5511999999999?text=Ol%C3%A1%21+Fiz+o+diagn%C3%B3stico+de+marca+e+gostaria+de+conversar."
                         target="_blank" rel="noopener" class="diag-cta-wa">
-                        <i class="fi fi-brands-whatsapp" style="font-size:24px;margin-top:2px"></i> Falar com um especialista
+                        <i class="fi fi-brands-whatsapp" style="font-size:24px;margin-top:2px"></i> Falar com um
+                        especialista
                     </a>
                 </div>
 
@@ -629,95 +796,187 @@
 
     <!-- Diagnóstico page renderer -->
     <script>
-    (function() {
-        'use strict';
+        (function () {
+            'use strict';
 
-        const dimensionLabels = {
-            identidade_visual: 'Identidade Visual',
-            naming: 'Naming',
-            proposta_de_valor: 'Proposta de Valor',
-            tom_de_voz: 'Tom de Voz',
-            diferenciacao: 'Diferenciação',
-            coesao_de_marca: 'Coesão de Marca',
-        };
+            const dimensionLabels = {
+                identidade_visual: 'Identidade Visual',
+                naming: 'Naming',
+                proposta_de_valor: 'Proposta de Valor',
+                tom_de_voz: 'Tom de Voz',
+                diferenciacao: 'Diferenciação',
+                coesao_de_marca: 'Coesão de Marca',
+            };
 
-        // Abbreviated labels for the radar chart axis (to prevent text cutoff)
-        const dimensionShort = {
-            identidade_visual: 'Id. Visual',
-            naming: 'Naming',
-            proposta_de_valor: 'Proposta',
-            tom_de_voz: 'Tom de Voz',
-            diferenciacao: 'Diferenciação',
-            coesao_de_marca: 'Coesão',
-        };
+            // Abbreviated labels for the radar chart axis (to prevent text cutoff)
+            const dimensionShort = {
+                identidade_visual: 'Id. Visual',
+                naming: 'Naming',
+                proposta_de_valor: 'Proposta',
+                tom_de_voz: 'Tom de Voz',
+                diferenciacao: 'Diferenciação',
+                coesao_de_marca: 'Coesão',
+            };
 
-        function escHtml(str) {
-            return String(str)
-                .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-                .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-        }
+            function escHtml(str) {
+                return String(str)
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
 
-        function dimColor(score) {
-            if (score >= 7) return '#2ed573';
-            if (score >= 5) return '#FFD600';
-            return '#FF6B35';
-        }
+            function dimColor(score) {
+                if (score >= 7) return '#2ed573';
+                if (score >= 5) return '#FFD600';
+                return '#FF6B35';
+            }
 
-        // ---- Load data ----
-        let stored;
-        try { stored = JSON.parse(localStorage.getItem('brandscan_result')); } catch(e) {}
+            // ---- Load data ----
+            let stored;
+            try { stored = JSON.parse(localStorage.getItem('brandscan_result')); } catch (e) { }
 
-        if (!stored || !stored.report) {
-            document.getElementById('diag-empty').style.display = 'block';
-            return;
-        }
+            // ================================================================
+            // ENVIO PARA GOOGLE SHEETS + E-MAIL
+            // Executado aqui porque diagnostico.html já está carregada (estável).
+            // Qualquer envio feito em brandscan.js era cancelado pelo redirect.
+            // ================================================================
+            (function sendLeadToSheets() {
+                const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzbmyq-ZQHw6SVi-nsy04n2nZwp55bu7_W9PepG1qlNYMCnkjCaWDyyzS38mITKnlbd6Q/exec';
 
-        document.getElementById('diag-report').style.display = 'block';
+                console.log('%c⚛️ E-TOMIC: verificando lead pendente...', 'color:#FF6B35;font-weight:bold');
 
-        const result  = stored;
-        const siteUrl = stored.siteUrl || '';
-        const r       = result.report;
+                // --- Tenta ler payload salvo pelo brandscan.js ---
+                let payload = null;
 
-        // Score
-        document.getElementById('diag-score').textContent = r.score;
-        document.getElementById('diag-headline').textContent = r.headline;
+                try {
+                    const raw = localStorage.getItem('brandscan_lead_pending');
+                    console.log('brandscan_lead_pending raw:', raw ? raw.slice(0, 80) + '...' : 'NULL');
 
-        // Screenshot
-        if (r.screenshot) {
-            const img = document.getElementById('diag-screenshot');
-            img.src = r.screenshot;
-            img.style.display = 'block';
-        }
+                    if (raw) {
+                        const item = JSON.parse(raw);
+                        if (item.sent === true) {
+                            console.log('Lead já enviado anteriormente — pulando.');
+                            return;
+                        }
+                        payload = item.payload;
+                    }
+                } catch (err) {
+                    console.warn('Erro ao ler brandscan_lead_pending:', err.message);
+                }
 
-        // Resumo
-        document.getElementById('diag-resumo').textContent = r.resumo_executivo;
+                // --- Fallback: constrói payload do brandscan_result ---
+                if (!payload) {
+                    try {
+                        const res = JSON.parse(localStorage.getItem('brandscan_result') || 'null');
+                        if (res && res.nome && res.siteUrl) {
+                            const r = res.report || {};
+                            payload = {
+                                nome: res.nome || '',
+                                email: res.email || '',
+                                telefone: res.telefone || '',
+                                site_url: res.siteUrl || '',
+                                timestamp: new Date().toISOString(),
+                                score: String(r.score || ''),
+                                headline: String(r.headline || ''),
+                                resumo: String(r.resumo_executivo || ''),
+                                pontos_fortes: (r.pontos_fortes || []).join(' | '),
+                                oportunidades: (r.oportunidades || []).join(' | '),
+                                recomendacao: String(r.recomendacao_prioritaria || ''),
+                                contato_whatsapp: 'https://wa.me/5511999999999',
+                                contato_email: 'contato@e-tomic.com',
+                            };
+                            console.log('Payload construído do brandscan_result');
+                        }
+                    } catch (err) {
+                        console.warn('Erro ao construir fallback payload:', err.message);
+                    }
+                }
 
-        // Pontos fortes
-        document.getElementById('diag-pontos').innerHTML =
-            (r.pontos_fortes || []).map(p =>
-                `<li class="diag-list-item diag-list-item--green"><span class="diag-li-icon">✓</span>${escHtml(p)}</li>`
-            ).join('');
+                if (!payload || !payload.email) {
+                    console.warn('Nenhum payload válido encontrado — lead não enviado.');
+                    return;
+                }
 
-        // Oportunidades
-        document.getElementById('diag-oportunidades').innerHTML =
-            (r.oportunidades || []).map(o =>
-                `<li class="diag-list-item diag-list-item--orange"><span class="diag-li-icon">→</span>${escHtml(o)}</li>`
-            ).join('');
+                console.log('Payload pronto. Enviando para Apps Script...');
+                console.log('  nome:', payload.nome, '| email:', payload.email, '| score:', payload.score);
 
-        // Recomendação
-        document.getElementById('diag-recomendacao').textContent = r.recomendacao_prioritaria;
+                // --- Envia via URLSearchParams (application/x-www-form-urlencoded) ---
+                // Tipo "simples" → sem preflight CORS → Apps Script recebe em e.parameter
+                const params = new URLSearchParams();
+                Object.entries(payload).forEach(function (kv) { params.append(kv[0], kv[1]); });
 
-        // Conclusão
-        document.getElementById('diag-conclusao').textContent = r.conclusao;
+                fetch(SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: params,
+                })
+                    .then(function () {
+                        console.log('%c⚛️ Lead enviado com sucesso!', 'color:#2ed573;font-weight:bold');
+                        // Marcar como enviado
+                        try {
+                            const raw = localStorage.getItem('brandscan_lead_pending');
+                            if (raw) {
+                                const item = JSON.parse(raw);
+                                item.sent = true;
+                                localStorage.setItem('brandscan_lead_pending', JSON.stringify(item));
+                            }
+                        } catch (_) { }
+                    })
+                    .catch(function (err) {
+                        console.error('Erro no fetch para Apps Script:', err.message);
+                    });
+            })();
 
-        // Dimensões cards
-        const dimContainer = document.getElementById('diag-dimensoes');
-        if (dimContainer && r.dimensoes) {
-            dimContainer.innerHTML = Object.entries(r.dimensoes).map(([key, dim]) => {
-                const label = dimensionLabels[key] || key;
-                const color = dimColor(dim.score);
-                const pct   = Math.round((dim.score / 10) * 100);
-                return `
+            if (!stored || !stored.report) {
+                document.getElementById('diag-empty').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('diag-report').style.display = 'block';
+
+            const result = stored;
+            const siteUrl = stored.siteUrl || '';
+            const r = result.report;
+
+            // Score
+            document.getElementById('diag-score').textContent = r.score;
+            document.getElementById('diag-headline').textContent = r.headline;
+
+            // Screenshot
+            if (r.screenshot) {
+                const img = document.getElementById('diag-screenshot');
+                img.src = r.screenshot;
+                img.style.display = 'block';
+            }
+
+            // Resumo
+            document.getElementById('diag-resumo').textContent = r.resumo_executivo;
+
+            // Pontos fortes
+            document.getElementById('diag-pontos').innerHTML =
+                (r.pontos_fortes || []).map(p =>
+                    `<li class="diag-list-item diag-list-item--green"><span class="diag-li-icon">✓</span>${escHtml(p)}</li>`
+                ).join('');
+
+            // Oportunidades
+            document.getElementById('diag-oportunidades').innerHTML =
+                (r.oportunidades || []).map(o =>
+                    `<li class="diag-list-item diag-list-item--orange"><span class="diag-li-icon">→</span>${escHtml(o)}</li>`
+                ).join('');
+
+            // Recomendação
+            document.getElementById('diag-recomendacao').textContent = r.recomendacao_prioritaria;
+
+            // Conclusão
+            document.getElementById('diag-conclusao').textContent = r.conclusao;
+
+            // Dimensões cards
+            const dimContainer = document.getElementById('diag-dimensoes');
+            if (dimContainer && r.dimensoes) {
+                dimContainer.innerHTML = Object.entries(r.dimensoes).map(([key, dim]) => {
+                    const label = dimensionLabels[key] || key;
+                    const color = dimColor(dim.score);
+                    const pct = Math.round((dim.score / 10) * 100);
+                    return `
                     <div class="diag-dim-card" title="${escHtml(dim.analise)}">
                         <div class="diag-dim-header">
                             <span class="diag-dim-label">${escHtml(label)}</span>
@@ -728,177 +987,177 @@
                         </div>
                         <p class="diag-dim-analise">${escHtml(dim.analise)}</p>
                     </div>`;
-            }).join('');
-        }
+                }).join('');
+            }
 
-        // ---- Radar Chart ----
-        if (r.dimensoes && typeof Chart !== 'undefined') {
-            const keys   = Object.keys(r.dimensoes);
-            const labels = keys.map(k => dimensionShort[k] || k);
-            const fullLabels = keys.map(k => dimensionLabels[k] || k);
-            const values = keys.map(k => r.dimensoes[k].score);
-            const colors = keys.map(k => dimColor(r.dimensoes[k].score));
+            // ---- Radar Chart ----
+            if (r.dimensoes && typeof Chart !== 'undefined') {
+                const keys = Object.keys(r.dimensoes);
+                const labels = keys.map(k => dimensionShort[k] || k);
+                const fullLabels = keys.map(k => dimensionLabels[k] || k);
+                const values = keys.map(k => r.dimensoes[k].score);
+                const colors = keys.map(k => dimColor(r.dimensoes[k].score));
 
-            const canvas  = document.getElementById('diag-radar-canvas');
-            const tooltip = document.getElementById('diag-radar-tooltip');
-            const ttLabel = document.getElementById('diag-tt-label');
-            const ttScore = document.getElementById('diag-tt-score');
+                const canvas = document.getElementById('diag-radar-canvas');
+                const tooltip = document.getElementById('diag-radar-tooltip');
+                const ttLabel = document.getElementById('diag-tt-label');
+                const ttScore = document.getElementById('diag-tt-score');
 
-            const radarChart = new Chart(canvas, {
-                type: 'radar',
-                data: {
-                    labels,
-                    datasets: [{
-                        label: 'Score',
-                        data: values,
-                        backgroundColor: 'rgba(255,107,53,0.12)',
-                        borderColor: '#FF6B35',
-                        pointBackgroundColor: colors,
-                        pointBorderColor: '#0a0a0a',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#FF6B35',
-                        pointRadius: 6,
-                        pointHoverRadius: 9,
-                        borderWidth: 2,
-                    }],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    animation: { duration: 900, easing: 'easeInOutQuart' },
-                    scales: {
-                        r: {
-                            min: 0,
-                            max: 10,
-                            ticks: {
-                                stepSize: 2,
-                                color: 'rgba(255,255,255,0.3)',
-                                backdropColor: 'transparent',
-                                font: { size: 10 },
-                            },
-                            grid: { color: 'rgba(255,255,255,0.07)' },
-                            angleLines: { color: 'rgba(255,255,255,0.06)' },
-                            pointLabels: {
-                                color: 'rgba(255,255,255,0.75)',
-                                font: { size: 12, family: 'Poppins, sans-serif', weight: '600' },
-                                padding: 14,
-                            },
-                        },
+                const radarChart = new Chart(canvas, {
+                    type: 'radar',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'Score',
+                            data: values,
+                            backgroundColor: 'rgba(255,107,53,0.12)',
+                            borderColor: '#FF6B35',
+                            pointBackgroundColor: colors,
+                            pointBorderColor: '#0a0a0a',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#FF6B35',
+                            pointRadius: 6,
+                            pointHoverRadius: 9,
+                            borderWidth: 2,
+                        }],
                     },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            // Usamos tooltip nativo customizado
-                            enabled: false,
-                            external: function(context) {
-                                const { chart, tooltip: tt } = context;
-                                const radarWrap = chart.canvas.parentElement;
-
-                                if (tt.opacity === 0) {
-                                    tooltip.classList.remove('visible');
-                                    return;
-                                }
-
-                                const idx = tt.dataPoints?.[0]?.dataIndex;
-                                if (idx === undefined) return;
-
-                                ttLabel.textContent = fullLabels[idx];
-                                ttScore.textContent = values[idx] + '/10';
-
-                                // Position tooltip near the data point
-                                const pt = tt.dataPoints?.[0]?.element;
-                                if (pt) {
-                                    const canvasRect = canvas.getBoundingClientRect();
-                                    const wrapRect   = radarWrap.getBoundingClientRect();
-                                    const x = pt.x + (canvasRect.left - wrapRect.left) - tooltip.offsetWidth / 2;
-                                    const y = pt.y + (canvasRect.top  - wrapRect.top)  - tooltip.offsetHeight - 12;
-                                    tooltip.style.left = Math.max(4, x) + 'px';
-                                    tooltip.style.top  = Math.max(4, y) + 'px';
-                                }
-
-                                tooltip.classList.add('visible');
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        animation: { duration: 900, easing: 'easeInOutQuart' },
+                        scales: {
+                            r: {
+                                min: 0,
+                                max: 10,
+                                ticks: {
+                                    stepSize: 2,
+                                    color: 'rgba(255,255,255,0.3)',
+                                    backdropColor: 'transparent',
+                                    font: { size: 10 },
+                                },
+                                grid: { color: 'rgba(255,255,255,0.07)' },
+                                angleLines: { color: 'rgba(255,255,255,0.06)' },
+                                pointLabels: {
+                                    color: 'rgba(255,255,255,0.75)',
+                                    font: { size: 12, family: 'Poppins, sans-serif', weight: '600' },
+                                    padding: 14,
+                                },
                             },
                         },
-                    },
-                    onHover: function(event, elements) {
-                        if (!elements.length) {
-                            tooltip.classList.remove('visible');
-                        }
-                    },
-                },
-            });
-        }
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                // Usamos tooltip nativo customizado
+                                enabled: false,
+                                external: function (context) {
+                                    const { chart, tooltip: tt } = context;
+                                    const radarWrap = chart.canvas.parentElement;
 
-        // ---- Oportunidades priorizadas ----
-        const ops = r.oportunidades_priorizadas;
-        if (ops && ops.length) {
-            document.getElementById('diag-op-section').style.display = 'block';
-            document.getElementById('diag-op-rows').innerHTML = ops.map(op => {
-                const prioClass = op.prioridade === 'Alto' ? 'diag-badge--green' : op.prioridade === 'Médio' ? 'diag-badge--yellow' : '';
-                return `
+                                    if (tt.opacity === 0) {
+                                        tooltip.classList.remove('visible');
+                                        return;
+                                    }
+
+                                    const idx = tt.dataPoints?.[0]?.dataIndex;
+                                    if (idx === undefined) return;
+
+                                    ttLabel.textContent = fullLabels[idx];
+                                    ttScore.textContent = values[idx] + '/10';
+
+                                    // Position tooltip near the data point
+                                    const pt = tt.dataPoints?.[0]?.element;
+                                    if (pt) {
+                                        const canvasRect = canvas.getBoundingClientRect();
+                                        const wrapRect = radarWrap.getBoundingClientRect();
+                                        const x = pt.x + (canvasRect.left - wrapRect.left) - tooltip.offsetWidth / 2;
+                                        const y = pt.y + (canvasRect.top - wrapRect.top) - tooltip.offsetHeight - 12;
+                                        tooltip.style.left = Math.max(4, x) + 'px';
+                                        tooltip.style.top = Math.max(4, y) + 'px';
+                                    }
+
+                                    tooltip.classList.add('visible');
+                                },
+                            },
+                        },
+                        onHover: function (event, elements) {
+                            if (!elements.length) {
+                                tooltip.classList.remove('visible');
+                            }
+                        },
+                    },
+                });
+            }
+
+            // ---- Oportunidades priorizadas ----
+            const ops = r.oportunidades_priorizadas;
+            if (ops && ops.length) {
+                document.getElementById('diag-op-section').style.display = 'block';
+                document.getElementById('diag-op-rows').innerHTML = ops.map(op => {
+                    const prioClass = op.prioridade === 'Alto' ? 'diag-badge--green' : op.prioridade === 'Médio' ? 'diag-badge--yellow' : '';
+                    return `
                     <div class="diag-op-row">
                         <p class="diag-op-acao">${escHtml(op.acao)}</p>
                         <span class="diag-badge">${escHtml(op.impacto)}</span>
                         <span class="diag-badge">${escHtml(op.esforco)}</span>
                         <span class="diag-badge ${prioClass}">${escHtml(op.prioridade)}</span>
                     </div>`;
-            }).join('');
-        }
+                }).join('');
+            }
 
-        // ---- Plano 4 semanas ----
-        const plano = r.plano_4_semanas;
-        if (plano && plano.length) {
-            document.getElementById('diag-plano-section').style.display = 'block';
-            document.getElementById('diag-plano').innerHTML = plano.map(sem => `
+            // ---- Plano 4 semanas ----
+            const plano = r.plano_4_semanas;
+            if (plano && plano.length) {
+                document.getElementById('diag-plano-section').style.display = 'block';
+                document.getElementById('diag-plano').innerHTML = plano.map(sem => `
                 <div class="diag-plano-week">
                     <p class="diag-plano-week-title">SEMANA ${sem.semana}</p>
                     <ul>
                         ${(sem.acoes || []).map(a => `<li class="diag-list-item diag-list-item--orange"><span class="diag-li-icon">→</span>${escHtml(a)}</li>`).join('')}
                     </ul>
                 </div>`).join('');
-        }
+            }
 
-        // ---- WhatsApp share ----
-        const waLink = document.getElementById('diag-share-wa');
-        if (waLink) {
-            const msg = encodeURIComponent(`Fiz um diagnóstico de marca do meu site com a E-TOMIC e recebi ${r.score}/10! Conferir diagnóstico: ${window.location.href}`);
-            waLink.href = `https://wa.me/?text=${msg}`;
-        }
+            // ---- WhatsApp share ----
+            const waLink = document.getElementById('diag-share-wa');
+            if (waLink) {
+                const msg = encodeURIComponent(`Fiz um diagnóstico de marca do meu site com a E-TOMIC e recebi ${r.score}/10! Conferir diagnóstico: ${window.location.href}`);
+                waLink.href = `https://wa.me/?text=${msg}`;
+            }
 
-        // ---- CTA WA ----
-        const ctaWa = document.getElementById('diag-cta-wa');
-        if (ctaWa && siteUrl) {
-            ctaWa.href = `https://wa.me/5511999999999?text=${encodeURIComponent(`Olá! Fiz o diagnóstico de marca do site ${siteUrl} e gostaria de conversar sobre os resultados.`)}`;
-        }
+            // ---- CTA WA ----
+            const ctaWa = document.getElementById('diag-cta-wa');
+            if (ctaWa && siteUrl) {
+                ctaWa.href = `https://wa.me/5511999999999?text=${encodeURIComponent(`Olá! Fiz o diagnóstico de marca do site ${siteUrl} e gostaria de conversar sobre os resultados.`)}`;
+            }
 
-        // ---- Copiar relatório ----
-        const copyBtn = document.getElementById('diag-copy');
-        if (copyBtn) {
-            copyBtn.addEventListener('click', () => {
-                const text = [
-                    `DIAGNÓSTICO DE MARCA – ${siteUrl}`,
-                    `Score: ${r.score}/10`,
-                    '',
-                    r.resumo_executivo,
-                    '',
-                    'PONTOS FORTES:',
-                    ...(r.pontos_fortes || []).map(p => '• ' + p),
-                    '',
-                    'OPORTUNIDADES:',
-                    ...(r.oportunidades || []).map(o => '• ' + o),
-                    '',
-                    'RECOMENDAÇÃO: ' + r.recomendacao_prioritaria,
-                    '',
-                    'CONCLUSÃO: ' + r.conclusao,
-                ].join('\n');
-                navigator.clipboard.writeText(text).then(() => {
-                    copyBtn.textContent = '✅ Copiado!';
-                    setTimeout(() => { copyBtn.textContent = '📋 Copiar relatório'; }, 2500);
+            // ---- Copiar relatório ----
+            const copyBtn = document.getElementById('diag-copy');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    const text = [
+                        `DIAGNÓSTICO DE MARCA – ${siteUrl}`,
+                        `Score: ${r.score}/10`,
+                        '',
+                        r.resumo_executivo,
+                        '',
+                        'PONTOS FORTES:',
+                        ...(r.pontos_fortes || []).map(p => '• ' + p),
+                        '',
+                        'OPORTUNIDADES:',
+                        ...(r.oportunidades || []).map(o => '• ' + o),
+                        '',
+                        'RECOMENDAÇÃO: ' + r.recomendacao_prioritaria,
+                        '',
+                        'CONCLUSÃO: ' + r.conclusao,
+                    ].join('\n');
+                    navigator.clipboard.writeText(text).then(() => {
+                        copyBtn.textContent = '✅ Copiado!';
+                        setTimeout(() => { copyBtn.textContent = '📋 Copiar relatório'; }, 2500);
+                    });
                 });
-            });
-        }
+            }
 
-    })();
+        })();
     </script>
 </body>
 
