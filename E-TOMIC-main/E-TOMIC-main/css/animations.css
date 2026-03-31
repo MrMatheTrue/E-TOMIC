@@ -1,0 +1,621 @@
+/* ========================================
+   E-TOMIC - Animações CSS
+   Animações vibrantes e interativas
+======================================== */
+
+/* ========================================
+   Keyframes Principais
+======================================== */
+
+/* Pulse de energia atômica */
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: 0.6;
+    }
+}
+
+/* Float suave */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Glow pulsante */
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(255, 107, 53, 0.6);
+    }
+}
+
+/* Rotação contínua */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Fade in com scale */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide in from bottom */
+@keyframes slideInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Bounce in */
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Gradient animation */
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Counter animation */
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   Classes de Animação
+======================================== */
+
+/* Fade In Effects */
+.fade-in {
+    opacity: 0;
+    animation: fadeInScale 0.8s ease forwards;
+}
+
+.fade-in-delay-1 {
+    animation-delay: 0.2s;
+}
+
+.fade-in-delay-2 {
+    animation-delay: 0.4s;
+}
+
+.fade-in-delay-3 {
+    animation-delay: 0.6s;
+}
+
+.fade-in-delay-4 {
+    animation-delay: 0.8s;
+}
+
+/* Slide Effects */
+.slide-left {
+    opacity: 0;
+    animation: slideInLeft 0.8s ease forwards;
+}
+
+.slide-right {
+    opacity: 0;
+    animation: slideInRight 0.8s ease forwards;
+}
+
+.slide-bottom {
+    opacity: 0;
+    animation: slideInBottom 0.8s ease forwards;
+}
+
+/* Bounce Effect */
+.bounce-in {
+    opacity: 0;
+    animation: bounceIn 1s ease forwards;
+}
+
+/* Float Animation */
+.float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse Animation */
+.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Glow Animation */
+.glow {
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* Rotate Animation */
+.rotate {
+    animation: rotate 20s linear infinite;
+}
+
+/* ========================================
+   Scroll Reveal (via JavaScript)
+======================================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-scale.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ========================================
+   Hover Effects Avançados
+======================================== */
+
+/* Lift e Shadow */
+.hover-lift {
+    transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(255, 107, 53, 0.4);
+}
+
+/* Glow no Hover */
+.hover-glow {
+    transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.6),
+        0 0 60px rgba(255, 107, 53, 0.4);
+}
+
+/* Scale no Hover */
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Brightness no Hover */
+.hover-bright {
+    transition: filter 0.3s ease;
+}
+
+.hover-bright:hover {
+    filter: brightness(1.2);
+}
+
+/* Gradient Shift */
+.hover-gradient {
+    background-size: 200% 200%;
+    transition: background-position 0.5s ease;
+}
+
+.hover-gradient:hover {
+    background-position: 100% 0;
+}
+
+/* Border Glow */
+.hover-border-glow {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.hover-border-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, var(--atomic-orange), var(--atomic-red));
+    border-radius: inherit;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+}
+
+.hover-border-glow:hover::before {
+    opacity: 1;
+}
+
+/* ========================================
+   Efeitos de Texto
+======================================== */
+
+/* Gradient Text Animate */
+.text-animate {
+    background: linear-gradient(90deg,
+            var(--atomic-orange),
+            var(--atomic-yellow),
+            var(--atomic-red),
+            var(--atomic-orange));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientMove 3s linear infinite;
+}
+
+/* Shimmer Text */
+.text-shimmer {
+    background: linear-gradient(90deg,
+            var(--text-gray) 0%,
+            var(--atomic-orange) 50%,
+            var(--text-gray) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+}
+
+/* Typing Effect (via JS) */
+.typing-text {
+    overflow: hidden;
+    border-right: 3px solid var(--atomic-orange);
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: var(--atomic-orange);
+    }
+}
+
+/* ========================================
+   Loading States
+======================================== */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 107, 53, 0.3),
+            transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    to {
+        left: 100%;
+    }
+}
+
+/* ========================================
+   Partículas de Fundo
+======================================== */
+.particles-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--atomic-orange);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: particleFloat 15s infinite;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.5;
+    }
+
+    90% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   Efeitos de Energia Atômica
+======================================== */
+
+/* Círculo de energia pulsante */
+.energy-circle {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(255, 107, 53, 0.3) 0%,
+            transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* Linha de energia */
+.energy-line {
+    position: relative;
+    overflow: hidden;
+}
+
+.energy-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--atomic-orange),
+            transparent);
+    animation: energyPulse 2s infinite;
+}
+
+@keyframes energyPulse {
+    to {
+        left: 100%;
+    }
+}
+
+/* ========================================
+   Transições de Página
+======================================== */
+.page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--gradient-atomic);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.page-transition.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.page-transition-logo {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 900;
+    color: white;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* ========================================
+   Scroll Progress Bar
+======================================== */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: var(--gradient-atomic);
+    z-index: 9999;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.1s ease;
+}
+
+/* ========================================
+   Cursor Customizado (Opcional)
+======================================== */
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--atomic-orange);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.custom-cursor.hover {
+    transform: scale(2);
+    opacity: 0.5;
+}
+
+/* ========================================
+   Performance Optimization
+======================================== */
+.will-animate {
+    will-change: transform, opacity;
+}
+
+/* Reduz animações para usuários com preferência */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
