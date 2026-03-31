@@ -764,7 +764,10 @@
                 </div>
                 <div class="footer-section">
                     <h3>Contato</h3>
-                    <p><a href="mailto:contato@e-tomic.com">contato@e-tomic.com</a></p>
+                    <p><a href="/cdn-cgi/l/email-protection#3a5955544e5b4e557a5f174e5557535914595557"><span
+                                class="__cf_email__"
+                                data-cfemail="41222e2f3520352e01246c352e2c28226f222e2c">[email&#160;protected]</span></a>
+                    </p>
                     <p><a href="https://wa.me/5511999999999" target="_blank">WhatsApp</a></p>
                 </div>
                 <div class="footer-section">
@@ -787,6 +790,7 @@
     </footer>
 
     <!-- JS base do site (main, animations, starfield) -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/starfield-background.js"></script>
@@ -840,35 +844,34 @@
             // Qualquer envio feito em brandscan.js era cancelado pelo redirect.
             // ================================================================
             (function sendLeadToSheets() {
-                const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzbmyq-ZQHw6SVi-nsy04n2nZwp55bu7_W9PepG1qlNYMCnkjCaWDyyzS38mITKnlbd6Q/exec';
+                // ─────────────────────────────────────────────────────────────
+                // ESTRATÉGIA: GET com dados na URL
+                // Apps Script redireciona POST externos (302), browser muda para
+                // GET e perde o body. Com GET os params ficam na URL e chegam
+                // intactos em doGet(e).parameter no Apps Script.
+                // Script tag como fallback (ignora CORS completamente).
+                // ─────────────────────────────────────────────────────────────
+                var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzbmyq-ZQHw6SVi-nsy04n2nZwp55bu7_W9PepG1qlNYMCnkjCaWDyyzS38mITKnlbd6Q/exec';
 
-                console.log('%c⚛️ E-TOMIC: verificando lead pendente...', 'color:#FF6B35;font-weight:bold');
+                console.log('%c⚛️ E-TOMIC: enviando lead...', 'color:#FF6B35;font-weight:bold');
 
-                // --- Tenta ler payload salvo pelo brandscan.js ---
-                let payload = null;
+                // ── Montar payload ────────────────────────────────────────────
+                var payload = null;
 
                 try {
-                    const raw = localStorage.getItem('brandscan_lead_pending');
-                    console.log('brandscan_lead_pending raw:', raw ? raw.slice(0, 80) + '...' : 'NULL');
-
+                    var raw = localStorage.getItem('brandscan_lead_pending');
                     if (raw) {
-                        const item = JSON.parse(raw);
-                        if (item.sent === true) {
-                            console.log('Lead já enviado anteriormente — pulando.');
-                            return;
-                        }
+                        var item = JSON.parse(raw);
+                        if (item.sent === true) { console.log('Lead já enviado.'); return; }
                         payload = item.payload;
                     }
-                } catch (err) {
-                    console.warn('Erro ao ler brandscan_lead_pending:', err.message);
-                }
+                } catch (e1) { }
 
-                // --- Fallback: constrói payload do brandscan_result ---
                 if (!payload) {
                     try {
-                        const res = JSON.parse(localStorage.getItem('brandscan_result') || 'null');
-                        if (res && res.nome && res.siteUrl) {
-                            const r = res.report || {};
+                        var res = JSON.parse(localStorage.getItem('brandscan_result') || 'null');
+                        if (res) {
+                            var r = res.report || {};
                             payload = {
                                 nome: res.nome || '',
                                 email: res.email || '',
@@ -876,54 +879,52 @@
                                 site_url: res.siteUrl || '',
                                 timestamp: new Date().toISOString(),
                                 score: String(r.score || ''),
-                                headline: String(r.headline || ''),
-                                resumo: String(r.resumo_executivo || ''),
-                                pontos_fortes: (r.pontos_fortes || []).join(' | '),
-                                oportunidades: (r.oportunidades || []).join(' | '),
-                                recomendacao: String(r.recomendacao_prioritaria || ''),
+                                headline: String(r.headline || '').slice(0, 80),
+                                resumo: String(r.resumo_executivo || '').slice(0, 150),
+                                pontos_fortes: (r.pontos_fortes || []).join(' | ').slice(0, 120),
+                                oportunidades: (r.oportunidades || []).join(' | ').slice(0, 120),
+                                recomendacao: String(r.recomendacao_prioritaria || '').slice(0, 100),
                                 contato_whatsapp: 'https://wa.me/5511999999999',
-                                contato_email: 'contato@e-tomic.com',
+                                contato_email: 'contato@e-tomic.com'
                             };
-                            console.log('Payload construído do brandscan_result');
                         }
-                    } catch (err) {
-                        console.warn('Erro ao construir fallback payload:', err.message);
-                    }
+                    } catch (e2) { }
                 }
 
                 if (!payload || !payload.email) {
-                    console.warn('Nenhum payload válido encontrado — lead não enviado.');
+                    console.warn('Nenhum payload valido — lead nao enviado.');
                     return;
                 }
 
-                console.log('Payload pronto. Enviando para Apps Script...');
-                console.log('  nome:', payload.nome, '| email:', payload.email, '| score:', payload.score);
+                console.log('Enviando: email=' + payload.email + ' score=' + payload.score);
 
-                // --- Envia via URLSearchParams (application/x-www-form-urlencoded) ---
-                // Tipo "simples" → sem preflight CORS → Apps Script recebe em e.parameter
-                const params = new URLSearchParams();
-                Object.entries(payload).forEach(function (kv) { params.append(kv[0], kv[1]); });
+                var qs = new URLSearchParams(payload).toString();
+                var fullUrl = SHEETS_URL + '?' + qs;
 
-                fetch(SHEETS_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: params,
-                })
+                // ── Método 1: fetch GET ───────────────────────────────────────
+                fetch(fullUrl, { method: 'GET', mode: 'no-cors' })
                     .then(function () {
-                        console.log('%c⚛️ Lead enviado com sucesso!', 'color:#2ed573;font-weight:bold');
-                        // Marcar como enviado
-                        try {
-                            const raw = localStorage.getItem('brandscan_lead_pending');
-                            if (raw) {
-                                const item = JSON.parse(raw);
-                                item.sent = true;
-                                localStorage.setItem('brandscan_lead_pending', JSON.stringify(item));
-                            }
-                        } catch (_) { }
+                        console.log('%c⚛️ Lead enviado (fetch GET)!', 'color:#2ed573;font-weight:bold');
+                        marcarEnviado();
                     })
-                    .catch(function (err) {
-                        console.error('Erro no fetch para Apps Script:', err.message);
+                    .catch(function () {
+                        // ── Método 2: script tag (fallback) ──────────────────
+                        var s = document.createElement('script');
+                        s.src = fullUrl;
+                        s.onerror = s.onload = function () {
+                            console.log('Script tag disparado — servidor processou.');
+                            marcarEnviado();
+                            try { document.head.removeChild(s); } catch (_) { }
+                        };
+                        document.head.appendChild(s);
                     });
+
+                function marcarEnviado() {
+                    try {
+                        var r2 = localStorage.getItem('brandscan_lead_pending');
+                        if (r2) { var o = JSON.parse(r2); o.sent = true; localStorage.setItem('brandscan_lead_pending', JSON.stringify(o)); }
+                    } catch (_) { }
+                }
             })();
 
             if (!stored || !stored.report) {
@@ -1151,14 +1152,3 @@
                         'CONCLUSÃO: ' + r.conclusao,
                     ].join('\n');
                     navigator.clipboard.writeText(text).then(() => {
-                        copyBtn.textContent = '✅ Copiado!';
-                        setTimeout(() => { copyBtn.textContent = '📋 Copiar relatório'; }, 2500);
-                    });
-                });
-            }
-
-        })();
-    </script>
-</body>
-
-</html>
