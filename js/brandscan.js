@@ -1,8 +1,8 @@
 /* ========================================
    E-TOMIC – BrandScan Integration
    Fluxo:
-   1. Supabase Edge Function → análise de IA (screenshot + relatório)
-   2. Google Apps Script    → salva lead no Sheets + dispara e-mail ao lead
+   1. Supabase Edge Function → análise de IA
+   2. Google Apps Script    → salva no Sheets + e-mail ao lead (via iframe form)
    3. localStorage          → passa resultado para diagnostico.html
 ======================================== */
 
@@ -10,18 +10,14 @@ const BRANDSCAN_CONFIG = {
   supabaseUrl: 'https://fuqjlfbwbgxumtxmjbjt.supabase.co',
   supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1cWpsZmJ3Ymd4dW10eG1qYmp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NzQ4NzEsImV4cCI6MjA5MDQ1MDg3MX0.9Cn32jJ3_peD9mcxM17YzTah9-uo_dFp8R1B-MyS5wM',
   functionName: 'brand-scan',
-
-  // URL do Google Apps Script – salva no Sheets + envia e-mail ao lead
   sheetsUrl: 'https://script.google.com/macros/s/AKfycbzbmyq-ZQHw6SVi-nsy04n2nZwp55bu7_W9PepG1qlNYMCnkjCaWDyyzS38mITKnlbd6Q/exec',
-
-  // Contato da E-TOMIC que vai no e-mail do lead
   contatoWhatsApp: 'https://wa.me/5511999999999',
   contatoEmail: 'contato@e-tomic.com',
 };
 
-// ============================
+// ============================================================
 // 1. Análise via Supabase (IA)
-// ============================
+// ============================================================
 async function callBrandScan(nome, email, telefone, siteUrl) {
   const url = `${BRANDSCAN_CONFIG.supabaseUrl}/functions/v1/${BRANDSCAN_CONFIG.functionName}`;
   const resp = await fetch(url, {
@@ -44,55 +40,70 @@ async function callBrandScan(nome, email, telefone, siteUrl) {
   return data;
 }
 
-// ============================
-// 2. Salvar no Sheets + e-mail
-// ============================
-async function saveToSheets(lead, report) {
-  /*
-   * Monta payload com dados do lead + resumo do relatório.
-   * O Apps Script salva uma linha no Sheets e envia o e-mail ao lead.
-   * Usamos no-cors para evitar bloqueio CORS (Apps Script não retorna cabeçalhos CORS).
-   */
-  const payload = {
-    // Dados do lead
-    nome: lead.nome,
-    email: lead.email,
-    telefone: lead.telefone,
-    site_url: lead.siteUrl,
-    timestamp: new Date().toISOString(),
-
-    // Resumo da análise (para a planilha e o e-mail)
-    score: report.score ?? '',
-    headline: report.headline ?? '',
-    resumo: report.resumo_executivo ?? '',
-    pontos_fortes: (report.pontos_fortes ?? []).join(' | '),
-    oportunidades: (report.oportunidades ?? []).join(' | '),
-    recomendacao: report.recomendacao_prioritaria ?? '',
-
-    // Config de contato (Apps Script usa para montar o e-mail)
-    contato_whatsapp: BRANDSCAN_CONFIG.contatoWhatsApp,
-    contato_email: BRANDSCAN_CONFIG.contatoEmail,
-  };
-
+// ============================================================
+// 2. Salvar no Sheets + disparar e-mail (iframe form submit)
+//
+//    fetch com no-cors é bloqueado silenciosamente pelo browser
+//    quando o Apps Script não retorna headers CORS.
+//    Form submit via iframe contorna isso completamente:
+//    o browser envia o POST e ignora a resposta — sem CORS, sem bloqueio.
+//    O Apps Script lê os campos via e.parameter.
+// ============================================================
+function saveToSheets(lead, report) {
   try {
-    await fetch(BRANDSCAN_CONFIG.sheetsUrl, {
-      method: 'POST',
-      mode: 'no-cors',
-      // text/plain é o único Content-Type permitido com no-cors.
-      // application/json dispara preflight CORS que o Apps Script não responde,
-      // fazendo o browser bloquear a requisição silenciosamente.
-      // O body continua sendo JSON válido — o Apps Script lê e.postData.contents normalmente.
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload),
+    const payload = {
+      nome: lead.nome || '',
+      email: lead.email || '',
+      telefone: lead.telefone || '',
+      site_url: lead.siteUrl || '',
+      timestamp: new Date().toISOString(),
+      score: String(report.score ?? ''),
+      headline: String(report.headline ?? ''),
+      resumo: String(report.resumo_executivo ?? ''),
+      pontos_fortes: (report.pontos_fortes ?? []).join(' | '),
+      oportunidades: (report.oportunidades ?? []).join(' | '),
+      recomendacao: String(report.recomendacao_prioritaria ?? ''),
+      contato_whatsapp: BRANDSCAN_CONFIG.contatoWhatsApp,
+      contato_email: BRANDSCAN_CONFIG.contatoEmail,
+    };
+
+    // iframe oculto como destino — evita que o browser redirecione a página
+    const iframe = document.createElement('iframe');
+    iframe.name = 'etomic-bs-frame';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    // form POST apontando para o Apps Script
+    const form = document.createElement('form');
+    form.action = BRANDSCAN_CONFIG.sheetsUrl;
+    form.method = 'POST';
+    form.target = 'etomic-bs-frame';
+
+    Object.entries(payload).forEach(([key, value]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
     });
+
+    document.body.appendChild(form);
+    form.submit();
+
+    // limpa DOM após 3s
+    setTimeout(() => {
+      try { document.body.removeChild(form); } catch (_) { }
+      try { document.body.removeChild(iframe); } catch (_) { }
+    }, 3000);
+
   } catch (err) {
-    console.warn('Sheets/e-mail: falha ao enviar (não crítico):', err.message);
+    console.warn('saveToSheets erro (não crítico):', err.message);
   }
 }
 
-// ============================
+// ============================================================
 // Fases do modal
-// ============================
+// ============================================================
 function showPhase(phase) {
   ['bs-phase-form', 'bs-phase-loading'].forEach(id => {
     const el = document.getElementById(id);
@@ -102,9 +113,6 @@ function showPhase(phase) {
   if (target) target.style.display = phase === 'form' ? 'block' : 'flex';
 }
 
-// ============================
-// Toast notification
-// ============================
 function showToast(msg, type = 'info') {
   const t = document.createElement('div');
   t.className = `bs-toast bs-toast--${type}`;
@@ -117,14 +125,10 @@ function showToast(msg, type = 'info') {
   }, 3500);
 }
 
-// ============================
-// Progress bar steps
-// ============================
 function updateProgress(phase) {
   const steps = document.querySelectorAll('.bs-progress-step');
   if (!steps.length) return;
   steps.forEach(s => s.classList.remove('bs-progress-step--active', 'bs-progress-step--done'));
-
   if (phase === 'form') {
     steps[0]?.classList.add('bs-progress-step--active');
   } else if (phase === 'loading') {
@@ -137,9 +141,9 @@ function updateProgress(phase) {
   }
 }
 
-// ============================
+// ============================================================
 // Loading animation
-// ============================
+// ============================================================
 let loadingInterval = null;
 let loadingStepIdx = 0;
 const loadingSteps = [
@@ -159,7 +163,6 @@ function startLoadingAnim() {
   loadingStepIdx = 0;
   el.textContent = loadingSteps[0];
   el.style.opacity = '1';
-
   loadingInterval = setInterval(() => {
     loadingStepIdx = (loadingStepIdx + 1) % loadingSteps.length;
     el.style.opacity = '0';
@@ -174,16 +177,15 @@ function stopLoadingAnim() {
   if (loadingInterval) { clearInterval(loadingInterval); loadingInterval = null; }
 }
 
-// ============================
-// Init BrandScan
-// ============================
+// ============================================================
+// Init
+// ============================================================
 function initBrandScan() {
   const form = document.getElementById('bs-form');
   if (!form) return;
 
   console.log('%c⚛️ E-TOMIC BrandScan – pronto', 'color: #FF6B35; font-weight: bold;');
 
-  // Máscara telefone
   const telInput = document.getElementById('bs-telefone');
   if (telInput) {
     telInput.addEventListener('input', (e) => {
@@ -214,19 +216,17 @@ function initBrandScan() {
     startLoadingAnim();
 
     try {
-      // ── Passo 1: análise de IA via Supabase ──────────────────────────────
+      // Passo 1 – análise IA via Supabase
       const result = await callBrandScan(nome, email, telefone, siteUrl);
 
-      // ── Passo 2: salvar no Sheets + disparar e-mail ao lead ──────────────
-      //    (assíncrono e silencioso – não bloqueia o redirect)
+      // Passo 2 – salvar no Sheets + e-mail ao lead (iframe, não bloqueia)
       saveToSheets({ nome, email, telefone, siteUrl }, result.report ?? {});
 
-      // ── Passo 3: passar resultado para diagnostico.html via localStorage ──
+      // Passo 3 – passar resultado para diagnostico.html
       result.siteUrl = siteUrl;
       result.nome = nome;
       localStorage.setItem('brandscan_result', JSON.stringify(result));
 
-      // Progresso visual e redirect
       updateProgress('redirect');
       stopLoadingAnim();
 
@@ -245,9 +245,6 @@ function initBrandScan() {
   });
 }
 
-// ============================
-// DOM Ready
-// ============================
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initBrandScan);
 } else {
