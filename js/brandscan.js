@@ -77,12 +77,15 @@ async function saveToSheets(lead, report) {
   try {
     await fetch(BRANDSCAN_CONFIG.sheetsUrl, {
       method: 'POST',
-      mode: 'no-cors',               // Apps Script não retorna CORS headers
-      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors',
+      // text/plain é o único Content-Type permitido com no-cors.
+      // application/json dispara preflight CORS que o Apps Script não responde,
+      // fazendo o browser bloquear a requisição silenciosamente.
+      // O body continua sendo JSON válido — o Apps Script lê e.postData.contents normalmente.
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload),
     });
   } catch (err) {
-    // Falha silenciosa – o lead já foi analisado, não bloqueia o fluxo
     console.warn('Sheets/e-mail: falha ao enviar (não crítico):', err.message);
   }
 }
