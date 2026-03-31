@@ -1,17 +1,26 @@
 /* ========================================
    E-TOMIC – BrandScan Integration
-   Vanilla JS · Supabase Edge Function
-   Fluxo: Modal (form + loading) → redireciona para diagnostico.html
+   Fluxo:
+   1. Supabase Edge Function → análise de IA (screenshot + relatório)
+   2. Google Apps Script    → salva lead no Sheets + dispara e-mail ao lead
+   3. localStorage          → passa resultado para diagnostico.html
 ======================================== */
 
 const BRANDSCAN_CONFIG = {
   supabaseUrl: 'https://fuqjlfbwbgxumtxmjbjt.supabase.co',
   supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1cWpsZmJ3Ymd4dW10eG1qYmp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NzQ4NzEsImV4cCI6MjA5MDQ1MDg3MX0.9Cn32jJ3_peD9mcxM17YzTah9-uo_dFp8R1B-MyS5wM',
   functionName: 'brand-scan',
+
+  // URL do Google Apps Script – salva no Sheets + envia e-mail ao lead
+  sheetsUrl: 'https://script.google.com/macros/s/AKfycbzbmyq-ZQHw6SVi-nsy04n2nZwp55bu7_W9PepG1qlNYMCnkjCaWDyyzS38mITKnlbd6Q/exec',
+
+  // Contato da E-TOMIC que vai no e-mail do lead
+  contatoWhatsApp: 'https://wa.me/5511999999999',
+  contatoEmail: 'contato@e-tomic.com',
 };
 
 // ============================
-// Chamar a Supabase Edge Function
+// 1. Análise via Supabase (IA)
 // ============================
 async function callBrandScan(nome, email, telefone, siteUrl) {
   const url = `${BRANDSCAN_CONFIG.supabaseUrl}/functions/v1/${BRANDSCAN_CONFIG.functionName}`;
@@ -36,7 +45,50 @@ async function callBrandScan(nome, email, telefone, siteUrl) {
 }
 
 // ============================
-// Trocar fase dentro do modal
+// 2. Salvar no Sheets + e-mail
+// ============================
+async function saveToSheets(lead, report) {
+  /*
+   * Monta payload com dados do lead + resumo do relatório.
+   * O Apps Script salva uma linha no Sheets e envia o e-mail ao lead.
+   * Usamos no-cors para evitar bloqueio CORS (Apps Script não retorna cabeçalhos CORS).
+   */
+  const payload = {
+    // Dados do lead
+    nome: lead.nome,
+    email: lead.email,
+    telefone: lead.telefone,
+    site_url: lead.siteUrl,
+    timestamp: new Date().toISOString(),
+
+    // Resumo da análise (para a planilha e o e-mail)
+    score: report.score ?? '',
+    headline: report.headline ?? '',
+    resumo: report.resumo_executivo ?? '',
+    pontos_fortes: (report.pontos_fortes ?? []).join(' | '),
+    oportunidades: (report.oportunidades ?? []).join(' | '),
+    recomendacao: report.recomendacao_prioritaria ?? '',
+
+    // Config de contato (Apps Script usa para montar o e-mail)
+    contato_whatsapp: BRANDSCAN_CONFIG.contatoWhatsApp,
+    contato_email: BRANDSCAN_CONFIG.contatoEmail,
+  };
+
+  try {
+    await fetch(BRANDSCAN_CONFIG.sheetsUrl, {
+      method: 'POST',
+      mode: 'no-cors',               // Apps Script não retorna CORS headers
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    // Falha silenciosa – o lead já foi analisado, não bloqueia o fluxo
+    console.warn('Sheets/e-mail: falha ao enviar (não crítico):', err.message);
+  }
+}
+
+// ============================
+// Fases do modal
 // ============================
 function showPhase(phase) {
   ['bs-phase-form', 'bs-phase-loading'].forEach(id => {
@@ -86,8 +138,8 @@ function updateProgress(phase) {
 // Loading animation
 // ============================
 let loadingInterval = null;
-let loadingStepIdx  = 0;
-const loadingSteps  = [
+let loadingStepIdx = 0;
+const loadingSteps = [
   'Acessando o site…',
   'Capturando screenshot…',
   'Analisando identidade visual…',
@@ -120,7 +172,7 @@ function stopLoadingAnim() {
 }
 
 // ============================
-// Init BrandScan form (called on pages that have the modal)
+// Init BrandScan
 // ============================
 function initBrandScan() {
   const form = document.getElementById('bs-form');
@@ -144,37 +196,40 @@ function initBrandScan() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const nome     = document.getElementById('bs-nome')?.value.trim();
-    const email    = document.getElementById('bs-email')?.value.trim();
+    const nome = document.getElementById('bs-nome')?.value.trim();
+    const email = document.getElementById('bs-email')?.value.trim();
     const telefone = document.getElementById('bs-telefone')?.value.trim();
-    const siteUrl  = document.getElementById('bs-site')?.value.trim();
+    const siteUrl = document.getElementById('bs-site')?.value.trim();
 
     if (!nome || !email || !telefone || !siteUrl) {
       showToast('Preencha todos os campos.', 'error');
       return;
     }
 
-    // Transição para loading
     showPhase('loading');
     updateProgress('loading');
     startLoadingAnim();
 
     try {
+      // ── Passo 1: análise de IA via Supabase ──────────────────────────────
       const result = await callBrandScan(nome, email, telefone, siteUrl);
 
-      // Salvar no localStorage para a página de relatório
+      // ── Passo 2: salvar no Sheets + disparar e-mail ao lead ──────────────
+      //    (assíncrono e silencioso – não bloqueia o redirect)
+      saveToSheets({ nome, email, telefone, siteUrl }, result.report ?? {});
+
+      // ── Passo 3: passar resultado para diagnostico.html via localStorage ──
       result.siteUrl = siteUrl;
-      result.nome    = nome;
+      result.nome = nome;
       localStorage.setItem('brandscan_result', JSON.stringify(result));
 
-      // Atualizar progresso visual brevemente antes de redirecionar
+      // Progresso visual e redirect
       updateProgress('redirect');
       stopLoadingAnim();
 
       const stepEl = document.getElementById('bs-loading-step');
       if (stepEl) { stepEl.style.opacity = '1'; stepEl.textContent = 'Relatório pronto! Abrindo…'; }
 
-      // Redirecionar para a página de diagnóstico
       setTimeout(() => { window.location.href = 'diagnostico.html'; }, 700);
 
     } catch (err) {
