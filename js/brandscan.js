@@ -2,7 +2,8 @@
    E-TOMIC – BrandScan Integration
    Fluxo:
    1. Supabase Edge Function → análise de IA
-   2. Google Apps Script    → salva no Sheets + e-mail ao lead (via iframe form)
+   2. Google Apps Script    → salva no Sheets + e-mail ao lead
+      (via sendBeacon – sobrevive ao redirect de página)
    3. localStorage          → passa resultado para diagnostico.html
 ======================================== */
 
@@ -41,13 +42,13 @@ async function callBrandScan(nome, email, telefone, siteUrl) {
 }
 
 // ============================================================
-// 2. Salvar no Sheets + disparar e-mail (iframe form submit)
+// 2. Salvar no Sheets + disparar e-mail
 //
-//    fetch com no-cors é bloqueado silenciosamente pelo browser
-//    quando o Apps Script não retorna headers CORS.
-//    Form submit via iframe contorna isso completamente:
-//    o browser envia o POST e ignora a resposta — sem CORS, sem bloqueio.
-//    O Apps Script lê os campos via e.parameter.
+//    navigator.sendBeacon() é a única API que garante envio
+//    mesmo quando a página está sendo descarregada/redirecionada.
+//    fetch e iframe são cancelados pelo browser no redirect.
+//    sendBeacon envia como text/plain (sem preflight CORS).
+//    Apps Script lê o JSON via e.postData.contents.
 // ============================================================
 function saveToSheets(lead, report) {
   try {
@@ -67,34 +68,14 @@ function saveToSheets(lead, report) {
       contato_email: BRANDSCAN_CONFIG.contatoEmail,
     };
 
-    // iframe oculto como destino — evita que o browser redirecione a página
-    const iframe = document.createElement('iframe');
-    iframe.name = 'etomic-bs-frame';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
+    const json = JSON.stringify(payload);
 
-    // form POST apontando para o Apps Script
-    const form = document.createElement('form');
-    form.action = BRANDSCAN_CONFIG.sheetsUrl;
-    form.method = 'POST';
-    form.target = 'etomic-bs-frame';
+    // Blob com type text/plain → requisição "simples", sem preflight CORS
+    // sendBeacon garante envio mesmo durante navegação de página
+    const blob = new Blob([json], { type: 'text/plain' });
+    const ok = navigator.sendBeacon(BRANDSCAN_CONFIG.sheetsUrl, blob);
 
-    Object.entries(payload).forEach(([key, value]) => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = value;
-      form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
-
-    // limpa DOM após 3s
-    setTimeout(() => {
-      try { document.body.removeChild(form); } catch (_) { }
-      try { document.body.removeChild(iframe); } catch (_) { }
-    }, 3000);
+    console.log('sendBeacon agendado:', ok);
 
   } catch (err) {
     console.warn('saveToSheets erro (não crítico):', err.message);
@@ -219,7 +200,8 @@ function initBrandScan() {
       // Passo 1 – análise IA via Supabase
       const result = await callBrandScan(nome, email, telefone, siteUrl);
 
-      // Passo 2 – salvar no Sheets + e-mail ao lead (iframe, não bloqueia)
+      // Passo 2 – sendBeacon: agendado antes do redirect, enviado pelo browser
+      //           mesmo depois da navegação de página
       saveToSheets({ nome, email, telefone, siteUrl }, result.report ?? {});
 
       // Passo 3 – passar resultado para diagnostico.html
@@ -233,7 +215,8 @@ function initBrandScan() {
       const stepEl = document.getElementById('bs-loading-step');
       if (stepEl) { stepEl.style.opacity = '1'; stepEl.textContent = 'Relatório pronto! Abrindo…'; }
 
-      setTimeout(() => { window.location.href = 'diagnostico.html'; }, 700);
+      // 2000ms de delay: sendBeacon precisa ser agendado antes da navegação
+      setTimeout(() => { window.location.href = 'diagnostico.html'; }, 2000);
 
     } catch (err) {
       console.error('BrandScan error:', err);
