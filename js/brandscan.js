@@ -177,6 +177,8 @@ function initBrandScan() {
       // Passo 3 – resultado para diagnostico.html
       result.siteUrl = siteUrl;
       result.nome = nome;
+      result.email = email;
+      result.telefone = telefone;
       localStorage.setItem('brandscan_result', JSON.stringify(result));
 
       updateProgress('redirect');

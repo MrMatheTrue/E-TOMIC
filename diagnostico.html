@@ -845,11 +845,10 @@
             // ================================================================
             (function sendLeadToSheets() {
                 // ─────────────────────────────────────────────────────────────
-                // ESTRATÉGIA: GET com dados na URL
+                // ESTRATÉGIA DUPLA: fetch GET (no-cors) + script tag + Image beacon
                 // Apps Script redireciona POST externos (302), browser muda para
                 // GET e perde o body. Com GET os params ficam na URL e chegam
                 // intactos em doGet(e).parameter no Apps Script.
-                // Script tag como fallback (ignora CORS completamente).
                 // ─────────────────────────────────────────────────────────────
                 var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzbmyq-ZQHw6SVi-nsy04n2nZwp55bu7_W9PepG1qlNYMCnkjCaWDyyzS38mITKnlbd6Q/exec';
 
@@ -858,6 +857,7 @@
                 // ── Montar payload ────────────────────────────────────────────
                 var payload = null;
 
+                // Fonte 1: brandscan_lead_pending (preferencial, já formatado)
                 try {
                     var raw = localStorage.getItem('brandscan_lead_pending');
                     if (raw) {
@@ -865,8 +865,9 @@
                         if (item.sent === true) { console.log('Lead já enviado.'); return; }
                         payload = item.payload;
                     }
-                } catch (e1) { }
+                } catch (e1) { console.warn('Erro ao ler brandscan_lead_pending:', e1); }
 
+                // Fonte 2: brandscan_result (fallback)
                 if (!payload) {
                     try {
                         var res = JSON.parse(localStorage.getItem('brandscan_result') || 'null');
@@ -888,7 +889,7 @@
                                 contato_email: 'contato@e-tomic.com'
                             };
                         }
-                    } catch (e2) { }
+                    } catch (e2) { console.warn('Erro ao ler brandscan_result:', e2); }
                 }
 
                 if (!payload || !payload.email) {
@@ -896,35 +897,49 @@
                     return;
                 }
 
-                console.log('Enviando: email=' + payload.email + ' score=' + payload.score);
+                // Remover sheets_url do payload (não precisa ser enviado como param)
+                delete payload.sheets_url;
+
+                console.log('Enviando lead: email=' + payload.email + ' score=' + payload.score);
 
                 var qs = new URLSearchParams(payload).toString();
                 var fullUrl = SHEETS_URL + '?' + qs;
+                var enviado = false;
 
-                // ── Método 1: fetch GET ───────────────────────────────────────
-                fetch(fullUrl, { method: 'GET', mode: 'no-cors' })
-                    .then(function () {
-                        console.log('%c⚛️ Lead enviado (fetch GET)!', 'color:#2ed573;font-weight:bold');
-                        marcarEnviado();
-                    })
-                    .catch(function () {
-                        // ── Método 2: script tag (fallback) ──────────────────
-                        var s = document.createElement('script');
-                        s.src = fullUrl;
-                        s.onerror = s.onload = function () {
-                            console.log('Script tag disparado — servidor processou.');
-                            marcarEnviado();
-                            try { document.head.removeChild(s); } catch (_) { }
-                        };
-                        document.head.appendChild(s);
-                    });
-
-                function marcarEnviado() {
+                function marcarEnviado(metodo) {
+                    if (enviado) return;
+                    enviado = true;
+                    console.log('%c⚛️ Lead enviado via ' + metodo + '!', 'color:#2ed573;font-weight:bold');
                     try {
                         var r2 = localStorage.getItem('brandscan_lead_pending');
                         if (r2) { var o = JSON.parse(r2); o.sent = true; localStorage.setItem('brandscan_lead_pending', JSON.stringify(o)); }
                     } catch (_) { }
                 }
+
+                // ── Método 1: fetch GET (no-cors → opaque response, sempre resolve) ──
+                fetch(fullUrl, { method: 'GET', mode: 'no-cors' })
+                    .then(function () { marcarEnviado('fetch'); })
+                    .catch(function (err) {
+                        console.warn('fetch falhou:', err);
+                    });
+
+                // ── Método 2: Image beacon (dispara GET independente) ──
+                var img = new Image();
+                img.onload = img.onerror = function () { marcarEnviado('image'); };
+                img.src = fullUrl;
+
+                // ── Método 3: script tag (fallback adicional, ignora CORS) ──
+                setTimeout(function () {
+                    if (enviado) return;
+                    var s = document.createElement('script');
+                    s.src = fullUrl;
+                    s.onload = function () { marcarEnviado('script'); try { document.head.removeChild(s); } catch (_) { } };
+                    s.onerror = function () {
+                        console.warn('Todos os métodos de envio falharam.');
+                        try { document.head.removeChild(s); } catch (_) { }
+                    };
+                    document.head.appendChild(s);
+                }, 2000);
             })();
 
             if (!stored || !stored.report) {
