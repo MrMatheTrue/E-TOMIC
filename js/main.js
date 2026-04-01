@@ -407,7 +407,7 @@ function init() {
     initSmoothScroll();
     initScrollReveal();
     initCounters();
-    initPageTransition();
+    // initPageTransition(); // removido — função não definida
     initBackToTop();
     initLazyLoad();
     initLinkPreload();

@@ -518,10 +518,15 @@ class FormAutoSave {
 // Inicialização
 // ========================================
 function initForms() {
-    console.log('%c⚛️ E-TOMIC BrandScan Modal – iniciando...', 'color: #FF6B35; font-weight: bold;');
+    console.log('%c⚛️ E-TOMIC Forms – iniciando...', 'color: #FF6B35; font-weight: bold;');
 
     // Inicializar modal (controla overlay via [data-form-open])
     const formModal = new FormModal('formOverlay');
+
+    // Inicializar FormHandler para o leadForm (clientes, cases, noticias)
+    if (document.getElementById('leadForm')) {
+        const leadHandler = new FormHandler('leadForm');
+    }
 }
 
 // ========================================
