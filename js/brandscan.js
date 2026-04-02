@@ -20,18 +20,39 @@ const BRANDSCAN_CONFIG = {
 // ============================================================
 async function callBrandScan(nome, email, telefone, siteUrl) {
   const url = `${BRANDSCAN_CONFIG.supabaseUrl}/functions/v1/${BRANDSCAN_CONFIG.functionName}`;
-  const resp = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${BRANDSCAN_CONFIG.supabaseKey}`,
-      'apikey': BRANDSCAN_CONFIG.supabaseKey,
-    },
-    body: JSON.stringify({ nome, email, telefone, site_url: siteUrl }),
-  });
+
+  // Timeout de 90s — Edge Function pode demorar para sites pesados
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 90000);
+
+  let resp;
+  try {
+    resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${BRANDSCAN_CONFIG.supabaseKey}`,
+        'apikey': BRANDSCAN_CONFIG.supabaseKey,
+      },
+      body: JSON.stringify({ nome, email, telefone, site_url: siteUrl }),
+      signal: controller.signal,
+    });
+  } catch (fetchErr) {
+    clearTimeout(timeoutId);
+    if (fetchErr.name === 'AbortError') {
+      throw new Error('A análise demorou demais. Verifique a URL e tente novamente.');
+    }
+    throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão.');
+  }
+  clearTimeout(timeoutId);
+
   if (!resp.ok) {
     const err = await resp.json().catch(() => ({}));
-    throw new Error(err.error || `Erro HTTP ${resp.status}`);
+    const msg = err.error || err.message || '';
+    if (resp.status === 500) throw new Error(msg || 'Erro interno no servidor. Tente novamente em alguns minutos.');
+    if (resp.status === 503 || resp.status === 502) throw new Error('Servidor temporariamente indisponível. Tente novamente em alguns minutos.');
+    if (resp.status === 429) throw new Error('Muitas requisições. Aguarde um momento e tente novamente.');
+    throw new Error(msg || `Erro HTTP ${resp.status}`);
   }
   const data = await resp.json();
   if (data.error) throw new Error(data.error);
